@@ -1,0 +1,54 @@
+<h1>League of Legends Competition Organizer</h1>
+<p>
+  Create a new competition or join one and manage teams!
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>At</th>
+      <th>Active</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <% time_now = Time.now %>
+
+
+
+
+
+  <tbody>
+    <% @competitions.each do |competition| %>
+      <% days_until = ((competition.at - time_now) / 1.days) %>
+
+      <tr>
+        <td><%= competition.name %></td>
+        <td><%= competition.description %></td>
+        <td>
+
+        <% if time_now >= competition.at %>
+          <span style="color:red"><%= competition.at.strftime("%B %d, %Y at %I:%M %p")  %><span>
+        <% elsif days_until < 1 %>
+          in <%= ((days_until * 1.days) / 1.hours).round %> hours
+        <% elsif days_until < 3 %>
+          in <%= days_until %> days
+        <% else %>
+          <%= competition.at.strftime("%B %d, %Y at %I:%M %p")  %>
+        <% end %>
+
+
+
+        </td>
+        <td><%= competition.active %></td>
+        <td><%= link_to 'Show', competition %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Create A Competition', new_competition_path %>

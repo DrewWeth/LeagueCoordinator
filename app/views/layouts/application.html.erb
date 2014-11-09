@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>League Organizer</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+<style>
+  html,body{
+    padding:0px;
+    margin:0px;
+    width:100%;
+    height:100%;
+  }
+  .padding{
+    padding:20px;
+  }
+</style>
+
+<img style="display:block;width:100%;height:200px" src="http://www.gamerdna.com/uimage/IWB37Xfo/full/banner-jpg-50.jpg"></img>
+
+<div class="padding">
+<%= link_to 'League Coordinator Home', root_path %>
+<span style="float:right">
+  <% if current_user != nil %>
+
+    Logged in as <%= link_to current_user.email, edit_user_registration_path %> | <%= link_to 'Logout', destroy_user_session_path, :method => :delete %>
+  <% else %>
+    <%= link_to 'Sign Up', new_user_registration_path %> |
+    <%= link_to 'Login', new_user_session_path %>
+ <% end %>
+</span>
+<center><p id="notice"><%= notice %></p></center>
+<%= yield %>
+
+
+<span style="margin:10px;right:0;bottom:0;position:fixed">Server time: <%= Time.now.utc.strftime("%B %d, %Y at %I:%M %p")  %></span>
+</div>
+</body>
+</html>

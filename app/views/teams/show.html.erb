@@ -1,0 +1,32 @@
+<p>
+  <%= link_to 'Back', @team.competition %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @team.name %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @team.active %>
+</p>
+<p>
+<% if !@is_member %>
+  <%= link_to 'Join Team', {:controller => "teams", :action => "upmate", :id => params["id"]} %>
+<% else %>
+  <%= link_to 'Leave Team', {:controller => "teams", :action => "downmate", :id => params["id"]} %>
+<% end %>
+</p>
+<hr>
+
+<p>
+  Members
+</p>
+<% @members.each do |f| %>
+  <div style="margin-bottom:10px;">
+    <div><%= f.user.email.humanize %></div>
+    <% if f.user.phone != nil %><div>Contact: <%= f.user.phone %></div><% end %>
+    <small>Lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
+  </div>
+<% end %>
