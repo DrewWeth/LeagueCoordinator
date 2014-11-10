@@ -54,6 +54,13 @@ class TeamsController < ApplicationController
       @team = Team.find(params["id"])
       @pic = PlayersInCompetitions.where(:competition_id => @team.competition_id).where(:user_id => current_user.id).take
 
+      if @pic == nil
+        @pic = PlayersInCompetitions.new
+        @pic.competition_id = @team.competition.id
+        @pic.user_id = current_user.id
+      end
+
+
       if @pic.team_id != nil
         old_team = @pic.team
         old_team.count -= 1
