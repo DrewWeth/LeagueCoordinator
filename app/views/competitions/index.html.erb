@@ -1,54 +1,45 @@
-<h1>League of Legends Competition Organizer</h1>
+<h1>League of Legends Competition Coordinator</h1>
+<div class="row">
+  <div class="col-md-6">
 <p>
-  Create a new competition or join one and manage teams!
+  League coordinator allows you coordinator League competitions or join existing ones. After that you have the option to join a team or remain a freelance
+</p>
+</div>
+
+</div>
+<hr>
+
+<p>
+<%= link_to 'Create A Competition', new_competition_path %>
 </p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>At</th>
-      <th>Active</th>
-      <th></th>
-    </tr>
-  </thead>
+<ul class="list-group">
 
   <% time_now = Time.now %>
 
-
-
-
-
-  <tbody>
     <% @competitions.each do |competition| %>
+    <a class="list-group-item" href="<%= url_for competition %>">
       <% days_until = ((competition.at - time_now) / 1.days) %>
 
-      <tr>
-        <td><%= competition.name %></td>
-        <td><%= competition.description %></td>
-        <td>
-
+    <span style="float:right">
         <% if time_now >= competition.at %>
-          <span style="color:red"><%= competition.at.strftime("%B %d, %Y at %I:%M %p")  %><span>
-        <% elsif days_until < 1 %>
-          in <%= ((days_until * 1.days) / 1.hours).round %> hours
-        <% elsif days_until < 3 %>
-          in <%= days_until %> days
+            <span style="color:red"><%= competition.at.strftime("%B %d, %Y at %I:%M %p")  %></span>
+              <% elsif days_until < 1 %>
+                in <%= ((days_until * 1.days) / 1.hours).round %> hours
+                  <% elsif days_until < 3 %>
+                    in <%= days_until %> days
         <% else %>
           <%= competition.at.strftime("%B %d, %Y at %I:%M %p")  %>
         <% end %>
+      </span>
+
+      <h4><%= competition.name %></h4>
+        <%= competition.description %>
 
 
 
-        </td>
-        <td><%= competition.active %></td>
-        <td><%= link_to 'Show', competition %></td>
-      </tr>
+
+    </a>
     <% end %>
-  </tbody>
-</table>
-
+  </ul>
 <br>
-
-<%= link_to 'Create A Competition', new_competition_path %>

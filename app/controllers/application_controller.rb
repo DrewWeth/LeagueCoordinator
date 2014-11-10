@@ -35,5 +35,14 @@ class ApplicationController < ActionController::Base
     session[:previous_url] || root_path
   end
 
+  before_action :set_default_params
+
+  def set_default_params
+    @currently_in_competitions = []
+    if current_user != nil
+        @currently_in_competitions = PlayersInCompetitions.where(:user_id => current_user.id)
+    end
+  end
+
 
 end

@@ -15,6 +15,8 @@ class CompetitionsController < ApplicationController
 
     @freelancers = PlayersInCompetitions.where(:competition_id => @competition.id).where(:team_id => nil)
 
+    @all_players = PlayersInCompetitions.where(:competition_id => @competition.id)
+
   end
 
   # GET /competitions/new

@@ -31,9 +31,24 @@ class TeamsController < ApplicationController
     @team = Team.new(team_params)
     @team.competition_id = params[:competition_id]
     @team.user_id = current_user.id
-
     respond_to do |format|
       if @team.save
+
+        @pic = PlayersInCompetitions.where(:competition_id => @team.competition_id).where(:user_id => current_user.id).take
+
+        if @pic == nil
+          @pic = PlayersInCompetitions.new
+          @pic.competition_id = @team.competition.id
+          @pic.user_id = current_user.id
+        end
+
+        @pic.team_id = @team.id
+        @team.count += 1
+
+        @team.save
+        @pic.save
+
+
         format.html { redirect_to @team, notice: 'Team was successfully created.' }
         format.json { render :show, status: :created, location: @team }
       else
@@ -98,11 +113,20 @@ class TeamsController < ApplicationController
       @pic.team_id = nil
       @team.count -= 1
 
+
       respond_to do |format|
         if @pic.save
-          @team.save
-          format.html { redirect_to @team, notice: 'You successfully left this team.' }
-          format.json { render :show, status: :created, location: @team }
+          if @team.count > 0
+            @team.save
+            format.html { redirect_to @team, notice: 'You successfully left this team.' }
+            format.json { render :show, status: :created, location: @team }
+
+          else
+            @team.destroy
+            format.html { redirect_to @team, notice: 'You successfully removed this team.' }
+            format.json { render :show, status: :created, location: @team }
+
+          end
         else
           format.html { render :new }
           format.json { render json: @team.errors, status: :unprocessable_entity }
