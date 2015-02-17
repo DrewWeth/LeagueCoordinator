@@ -13,17 +13,15 @@ class CompetitionsController < ApplicationController
 
     @teams = @competition.teams.order('name')
     is_member?
-
     @freelancers = PlayersInCompetitions.where(:competition_id => @competition.id).where(:team_id => nil)
-
     @all_players = PlayersInCompetitions.where(:competition_id => @competition.id)
-
   end
 
   # GET /competitions/new
   def new
     enforce_login
     @competition = Competition.new
+    @competition.at = DateTime.now
   end
 
   # GET /competitions/1/edit
