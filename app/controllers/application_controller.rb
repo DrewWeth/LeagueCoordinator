@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   def set_default_params
     @currently_in_competitions = []
     if current_user != nil
-        @currently_in_competitions = PlayersInCompetitions.where(:user_id => current_user.id)
+        @currently_in_competitions = PlayersInCompetitions.where(:user_id => current_user.id).order("id DESC")
     end
   end
 
