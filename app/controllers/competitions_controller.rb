@@ -54,7 +54,7 @@ class CompetitionsController < ApplicationController
   def join
     if current_user == nil
       respond_to do |format|
-        format.html { redirect_to new_user_session_path, notice: 'Please login. Thank you!' }
+        format.html { redirect_to new_user_session_path, alert: 'Please login. Thank you!' }
         format.json { render :show, status: :created, location: new_user_session_path }
       end
     else
@@ -177,6 +177,6 @@ class CompetitionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def competition_params
-      params.require(:competition).permit(:name, :description, :at, :active, :user_id, :image)
+      params.require(:competition).permit(:name, :description, :at, :active, :user_id, :image, :location)
     end
 end

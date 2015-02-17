@@ -32,6 +32,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :location %><br>
+    <%= f.text_field :location, :class=> "form-control", :required=> true %>
+  </div>
+
+  <div class="field">
     <label>Image (Optional)</label><br>
     <%= f.text_field :image, :class=> "form-control", :placeholder=>"Image URL" %>
   </div>

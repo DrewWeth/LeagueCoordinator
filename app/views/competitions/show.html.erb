@@ -22,11 +22,15 @@
     <%= @competition.at.strftime("%B %d, %Y at %I:%M %p")  %>
   </p>
   <p>
+    <strong>Location:</strong>
+    <%= @competition.location %>
+  </p>
+  <p>
     <strong>Organizer:</strong>
     <%= @competition.user.email %>
   </p>
 
-  <%= link_to 'Admin Access', edit_competition_path(@competition) if current_user.id == @competition.user_id %>
+  <%= link_to 'Admin Access', edit_competition_path(@competition) if current_user and current_user.id == @competition.user_id %>
   </div>
   <div class="col-md-6">
     <center><%= image_tag(@competition.image, :class=>"img img-responsive") if !@competition.image.blank? %></center>
