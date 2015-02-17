@@ -1,12 +1,19 @@
 Rails.application.routes.draw do
-  root to: "competitions#index"
+  get 'home/index'
+
+  get 'home/about'
+
+  get 'home/help'
+
+  root to: "home#index"
   devise_for :users
 
-  get 'teams/upmate', to: 'teams#upmate'
-  get 'teams/downmate', to: 'teams#downmate'
+  get 'teams/upmate/:id', to: 'teams#upmate'
+  get 'teams/downmate/:id', to: 'teams#downmate'
 
   resources :teams
 
+  get 'competitions/search', to: 'competitions#search'
   get 'competitions/join/:id', to: 'competitions#join'
   get 'competitions/leave/:id', to: 'competitions#leave'
   resources :competitions

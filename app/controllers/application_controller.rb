@@ -3,11 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-
   before_action :configure_permitted_parameters, if: :devise_controller?
   after_filter :store_location
-
-
 
   protected
   def configure_permitted_parameters
@@ -15,7 +12,6 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:login, :username, :email, :password, :remember_me) }
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :email, :password, :password_confirmation, :current_password, :summoner_name, :phone) }
   end
-
 
   def store_location
     # store last url - this is needed for post-login redirect to whatever the user last visited.
@@ -42,6 +38,41 @@ class ApplicationController < ActionController::Base
     if current_user != nil
         @currently_in_competitions = PlayersInCompetitions.where(:user_id => current_user.id)
     end
+  end
+
+  helper_method :resource_name
+  helper_method :resource
+  helper_method :devise_mapping
+  helper_method :current_controller?
+  helper_method :current_more?
+
+  def current_more?
+    if params["action"] == "about" or params["action"] == "help"
+      return "active"
+    else
+      return ""
+    end
+  end
+
+
+  def current_controller?(controller)
+    if params["controller"] == controller
+      return "active"
+    else
+      return ""
+    end
+  end
+
+  def resource_name
+    :user
+  end
+
+  def resource
+    @resource ||= User.new
+  end
+
+  def devise_mapping
+    @devise_mapping ||= Devise.mappings[:user]
   end
 
 

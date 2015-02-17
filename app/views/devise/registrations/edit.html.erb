@@ -9,21 +9,22 @@
 <p>
 <%= link_to "Back", :back %>
 </p>
-
+<div class="row">
+  <div class="col-md-5">
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
   <p>
   <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
+  <%= f.email_field :email, autofocus: true, :class=>"form-control" %></div>
 </p>
 <p>
   <div><%= f.label 'League summoner name' %><br />
-  <%= f.text_field :summoner_name %></div>
+  <%= f.text_field :summoner_name, :class=>"form-control" %></div>
 </p>
 
 <p>
-  <div><%= f.label 'Phone number (Supply this if you would like to be contacted about joining a team)' %><br />
-  <%= f.text_field :phone %></div>
+  <div><%= f.label 'Phone number (Just in case)' %><br />
+  <%= f.text_field :phone, :class=>"form-control" %></div>
 </p>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -31,17 +32,17 @@
   <% end %>
 <p>
   <div><%= f.label 'New password' %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
+    <%= f.password_field :password, autocomplete: "off", :class=>"form-control" %></div>
 </p>
 <p>
   <div><%= f.label 'New password confirmation' %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
+    <%= f.password_field :password_confirmation, autocomplete: "off", :class=>"form-control" %></div>
 </p>
 <p>
   <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off" %></div>
+    <%= f.password_field :current_password, autocomplete: "off", :class=>"form-control" %></div>
     <br>
-  <div><%= f.submit "Update" %></div>
+  <div><%= f.submit "Update", :class=>"btn btn-primary" %></div>
 <% end %>
 
 <h3>Delete my account</h3>

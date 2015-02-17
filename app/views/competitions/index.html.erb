@@ -1,45 +1,76 @@
-<h1>League of Legends Competition Coordinator</h1>
 <div class="row">
-  <div class="col-md-6">
-<p>
-  League coordinator allows you coordinator League competitions or join existing ones. After that you have the option to join a team or remain a freelance
-</p>
+  <div class="col-md-12">
+
+    <h1>All League Competitions</h1>
+  </div>
 </div>
+<div class="row">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <span class="panel-title">
+          <div class="row">
+            <div class="col-md-4">
+              <input id="search" class="form-control" placeholder="Search" type="text"/>
 
-</div>
-<hr>
+            </div>
+            <div class="col-md-8">
+              <%= button_to 'Create A Competition', new_competition_path, :style => "display: inline", :class => "btn btn-primary pull-right", :method => "get" %>
+            </div>
+          </div>
+        </span>
+      </div>
 
-<p>
-<%= link_to 'Create A Competition', new_competition_path %>
-</p>
+      <% time_now = Time.now %>
 
-<ul class="list-group">
+      <ul class="list-group" id="results">
 
-  <% time_now = Time.now %>
+        <% @competitions.each do |competition| %>
+        <a class="list-group-item" href="<%= url_for competition %>">
+          <% days_until = ((competition.at - time_now) / 1.days) %>
 
-    <% @competitions.each do |competition| %>
-    <a class="list-group-item" href="<%= url_for competition %>">
-      <% days_until = ((competition.at - time_now) / 1.days) %>
-
-    <span style="float:right">
-        <% if time_now >= competition.at %>
+          <span style="float:right">
+            <% if time_now >= competition.at %>
             <span style="color:red"><%= competition.at.strftime("%B %d, %Y at %I:%M %p")  %></span>
-              <% elsif days_until < 1 %>
-                in <%= ((days_until * 1.days) / 1.hours).round %> hours
-                  <% elsif days_until < 3 %>
-                    in <%= days_until %> days
-        <% else %>
-          <%= competition.at.strftime("%B %d, %Y at %I:%M %p")  %>
+            <% elsif days_until < 1 %>
+            in <%= ((days_until * 1.days) / 1.hours).round %> hours
+            <% elsif days_until < 7 %>
+            in <%= days_until.round %> days
+            <% else %>
+            <%= competition.at.strftime("%B %d, %Y at %I:%M %p")  %>
+            <% end %>
+          </span>
+
+          <h4><%= competition.name %></h4>
+          <%= competition.description %>
+
+
+
+        </a>
         <% end %>
-      </span>
+      </ul>
 
-      <h4><%= competition.name %></h4>
-        <%= competition.description %>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <%= render 'layouts/competitions' %>
+  </div>
+</div>
 
+<script type="text/javascript">
+$('#search').keyup(function(){
+  var s = $('#search').val();
+  console.log(s);
 
+  $.ajax({
+    type: "GET",
+    url: "/competitions/search",
+    data: { 'query' :  s },
+    success: function(data){
+      $('#results').html(data);
+    }
 
+  });
+});
 
-    </a>
-    <% end %>
-  </ul>
-<br>
+</script>

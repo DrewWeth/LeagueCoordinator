@@ -1,104 +1,113 @@
 <p>
-<%= link_to 'Back', competitions_path %>
+  <%= link_to 'Back', competitions_path %>
 </p>
 
-<h2><%= @competition.name %></h2>
+<div class="row">
+  <div class="col-md-6">
+    <h1><%= @competition.name %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @competition.description %>
-</p>
+      <% if !@is_member %>
+      <%= link_to "Join Competition" , {:controller => "competitions", :action => "join", :id => params[:id]}, :class => "btn btn-success pull-right" %>
+      <% else %>
+      <%= link_to "Leave Competition", {:controller => "competitions", :action => "leave", :id => params[:id]}, :class=> "btn btn-danger pull-right" %>
+      <% end %>
+    </h1>
 
-<p>
-  <strong>At:</strong>
-  <%= @competition.at.strftime("%B %d, %Y at %I:%M %p")  %>
-
-</p>
-
-<p>
-  <strong>Active:</strong>
-  <%= @competition.active %>
-</p>
-
-<% if !@is_member %>
-  <center><%= link_to "<span class='glyphicon glyphicon-ok-sign'></span>".html_safe , {:controller => "competitions", :action => "join", :id => params[:id]}, :style => "color:green;font-size:300%" %><br>Join Competition</center>
-<% else %>
-  <span style="font-size:130%;color:red" class='glyphicon glyphicon-minus-sign'></span> <%= link_to "Leave Competition", {:controller => "competitions", :action => "leave", :id => params[:id]} %>
   <p>
-    <center>
-      <span style="color:green">Good luck!</span>
-  </center>
+    <strong>Description:</strong>
+    <%= @competition.description %>
   </p>
-<% end %>
+  <p>
+    <strong>Date:</strong>
+    <%= @competition.at.strftime("%B %d, %Y at %I:%M %p")  %>
+  </p>
+  <p>
+    <strong>Organizer:</strong>
+    <%= @competition.user.email %>
+  </p>
 
-<hr>
+  <%= link_to 'Admin Access', edit_competition_path(@competition) if current_user.id == @competition.user_id %>
+  </div>
+  <div class="col-md-6">
+    <center><%= image_tag(@competition.image, :class=>"img img-responsive") if !@competition.image.blank? %></center>
+  </div>
+</div>
+  <hr>
 
-<p>
-Teams <span class="badge"><%= @teams.count %></span>
-</p>
-<p>
-  <%= link_to 'Create Team', new_team_path( :competition_id => params[:id]) %>
-</p>
-<p>
-<% @teams.each do |t| %>
-  <% if @is_member and t.id == @users_association.team_id %>
-    <span style="color:green">Member</span>
+  <p>
+  </p>
 
-  <% else %>
-    <%= link_to "<span class='glyphicon glyphicon-plus-sign'></span>".html_safe , {:controller => 'teams', :action => 'upmate', :id => t.id} %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="panel-title">
+        Teams <span class="badge"><%= @teams.count %></span><%= link_to 'Create Team', new_team_path( :competition_id => params[:id]), :class=>"pull-right" %>
 
-   <% end %>
-   <%= link_to t.name, t %>
+      </span>
+    </h3>
+  </div>
+  <ul class="list-group">
+    <%= "<li class='list-group-item'>There are no teams yet</li>".html_safe if @teams.empty? %>
+    <% @teams.each do |f| %>
 
-  <% if t.count < 2 %>
-    <span style="color:red">
-  <% elsif t.count > 1 and t.count < 4 %>
-    <span style="color:orange">
-  <% elsif t.count > 4 %>
-    <span style="color:green">
-  <% end %>
-  <%= t.count %>/5<span>
+    <a class="list-group-item" href="<%= url_for f %>">
+      <div><b><%= f.name  %></b></div>
+      <div><%= f.count %>/5 members</div>
 
-  <br>
-<% end %>
-</p>
+    </a>
+    <% end %>
+  </ul>
+
+</div>
+
 <hr>
 
 <div class="row">
   <div class="col-md-6">
-<p>
-  Freelance Players <span class="badge"><%= @freelancers.count %>
-</p>
-<p>
-  <% @freelancers.each do |f| %>
-    <div><%= f.user.email.humanize %></div>
-    <% if f.user.phone != nil %><div>Contact: <%= f.user.phone %></div><% end %>
-    <small>Lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
 
-  <% end %>
-</p>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <span class="panel-title">Freelance Players <span class="badge"><%= @freelancers.count %></span></span>
+      </h3>
+    </div>
+    <ul class="list-group">
+      <%= "<li class='list-group-item'>There are no freelance players</li>".html_safe if @freelancers.empty? %>
+      <% @freelancers.each do |f| %>
+
+      <li class="list-group-item">
+        <span style="float:right"><%= f.team != nil ? "Team: "+ f.team.name : "" %></span>
+
+        <div><%= f.user.email.humanize %></div>
+
+        <small>lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
+      </li>
+      <% end %>
+    </ul>
+
+  </div>
+
+
 </div>
 <div class="col-md-6">
 
-<p>
-  All Players <span class="badge"><%= @all_players.count %></span>
-</p>
-<p>
-<ul class="list-group">
-
-  <% @all_players.each do |f| %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="panel-title">All Players <span class="badge"><%= @all_players.count %></span></span>
+    </h3>
+  </div>
+  <ul class="list-group">
+    <%= "<li class='list-group-item'>There are no players</li>".html_safe if @all_players.empty? %>
+    <% @all_players.each do |f| %>
 
     <li class="list-group-item">
       <span style="float:right"><%= f.team != nil ? "Team: "+ f.team.name : "" %></span>
 
       <div><%= f.user.email.humanize %></div>
-      <% if f.user.phone != nil %>
-        <div>Contact: <%= f.user.phone %></div>
-      <% end %>
+
       <small>lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
     </li>
-  <% end %>
-</ul>
-</p>
+    <% end %>
+  </ul>
+
+</div>
 </div>
 </div>

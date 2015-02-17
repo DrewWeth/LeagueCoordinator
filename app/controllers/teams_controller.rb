@@ -113,7 +113,6 @@ class TeamsController < ApplicationController
       @pic.team_id = nil
       @team.count -= 1
 
-
       respond_to do |format|
         if @pic.save
           if @team.count > 0
@@ -122,8 +121,9 @@ class TeamsController < ApplicationController
             format.json { render :show, status: :created, location: @team }
 
           else
+            competition = @team.competition
             @team.destroy
-            format.html { redirect_to @team, notice: 'You successfully removed this team.' }
+            format.html { redirect_to competition, notice: 'You successfully removed this team.' }
             format.json { render :show, status: :created, location: @team }
 
           end

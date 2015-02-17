@@ -1,15 +1,16 @@
 class CompetitionsController < ApplicationController
-  before_action :set_competition, only: [:show, :edit, :update, :destroy]
 
+  before_action :set_competition, only: [:show, :edit, :update, :destroy]
   # GET /competitions
   # GET /competitions.json
   def index
-    @competitions = Competition.all
+    @competitions = Competition.where("at >= ?", DateTime.now.at_beginning_of_day.utc).order("at")
   end
 
   # GET /competitions/1
   # GET /competitions/1.json
   def show
+
     @teams = @competition.teams.order('name')
     is_member?
 
@@ -27,19 +28,35 @@ class CompetitionsController < ApplicationController
 
   # GET /competitions/1/edit
   def edit
+    @teams = Team.where(:competition_id => @competition.id)
     if !is_owner?
+
+
       respond_to do |format|
         format.html { redirect_to new_user_session_path, notice: 'You are not the owner of this competition.' }
         format.json { render :show, status: :created, location: new_user_session_path }
       end
     end
+  end
 
+  def search
+    @results = Competition.where("name like :kw or description like :kw", :kw=>"%#{params[:query]}%").all
+
+    @data = ""
+    @results.each do |r|
+        @data += "<a class='list-group-item' href='" + url_for(r) + "'>"
+        @data += r.name + "<span class='pull-right'>" + r.at.to_s +  "</span></a>"
+
+    end
+
+
+    render :html => @data.html_safe
   end
 
   def join
     if current_user == nil
       respond_to do |format|
-        format.html { redirect_to new_user_session_path, notice: 'Please login so we have some data to organize your game with. Thank you!' }
+        format.html { redirect_to new_user_session_path, notice: 'Please login. Thank you!' }
         format.json { render :show, status: :created, location: new_user_session_path }
       end
     else
@@ -66,12 +83,17 @@ class CompetitionsController < ApplicationController
   # DELETE /competitions/1.json
   def leave
     enforce_login
-    @competition = Competition.find(params["id"])
     @pic = PlayersInCompetitions.where(:competition_id => params["id"]).where(:user_id => current_user.id).take
+
+    if @pic.team_id != nil
+      @team = @pic.team
+      @team.count -= 1
+      @team.save
+    end
 
     respond_to do |format|
       if @pic != nil and @pic.destroy
-        format.html { redirect_to @competition, notice: 'You left the competition.' }
+        format.html { redirect_to @pic.competition, notice: 'You left the competition.' }
         format.json { head :no_content }
       else
         format.html { redirect_to @competition, notice: 'Something went wrong. Failed to leave competition.' }
@@ -86,7 +108,9 @@ class CompetitionsController < ApplicationController
   def create
     enforce_login
     @competition = Competition.new(competition_params)
-    @competition.active = true
+    # puts "DATETIME-------------------------------------- >> " << Time.strptime(params[:datetime], "%m/%d/%Y %H:%M %p").to_s
+    @competition.user_id = current_user.id
+    @competition.at = Time.strptime(params[:datetime] + " UTC", "%m/%d/%Y %H:%M %p %Z") # Hella hacky
 
     respond_to do |format|
       if @competition.save
@@ -155,6 +179,6 @@ class CompetitionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def competition_params
-      params.require(:competition).permit(:name, :description, :at, :active, :user_id)
+      params.require(:competition).permit(:name, :description, :at, :active, :user_id, :image)
     end
 end

@@ -20,70 +20,61 @@
 </head>
 <body>
 
-  <style>
-  html,body{
-    padding:0px;
-    margin:0px;
-    width:100%;
-    height:100%;
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to "Leaguely", root_path, :id=>"navbar-link", :class=>"navbar-brand" %>
+    </div>
 
-  }
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="<%= current_controller?('competitions') %>"><%= link_to 'Competitions', competitions_path %></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><%= link_to 'About', home_about_path %></li>
+            <li><%= link_to 'Help', home_help_path %></li>
 
-  a{
-    text-decoration: underline;
-  }
-  .padding{
-    padding:20px;
-  }
-  </style>
+          </ul>
+        </li>
+      </ul>
 
-  <img style="display:block;width:100%;height:200px" src="http://www.gamerdna.com/uimage/IWB37Xfo/full/banner-jpg-50.jpg"></img>
+      <ul class="nav navbar-nav navbar-right">
+        <% if current_user == nil %>
+          <%= render "devise/sessions/new" %>
 
-  <div class="container" style="padding:20px">
+        <% else %>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%= current_user.email %> <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><%= link_to 'Profile', edit_user_registration_path, :class=>"inline" %></li>
+            <li class="divider"></li>
+            <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete %></li>
+
+          </ul>
+        </li>
+        <% end %>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container">
     <div class="row">
       <div class="col-md-12">
-      <%= link_to "<span class='glyphicon glyphicon-home'></span>".html_safe, root_path, :style => "font-size:150%" %>
-      <span style="float:right">
-        <% if current_user != nil %>
-
-        Logged in as <%= link_to current_user.email, edit_user_registration_path %> <span class='glyphicon glyphicon-cog'></span> <%= link_to 'Logout', destroy_user_session_path, :method => :delete %>
-        <% else %>
-        <%= link_to 'Sign Up', new_user_registration_path %> |
-        <%= link_to 'Login', new_user_session_path %>
-        <% end %>
-      </span>
-
-
-      <center><p id="notice"><%= notice %></p></center>
-    </div>
-  </div>
-    <div class="row">
-
-      <div class="col-md-10">
         <%= yield %>
       </div>
 
-      <div class="col-md-2">
-        <h4>Your Competitions</h4>
-        <hr>
-        <% @currently_in_competitions.each do |c| %>
-          <p>
-            <span class="glyphicon glyphicon-chevron-right"></span>  <%= link_to c.competition.name, c.competition %>
-            <span style="color:gray">
-              <% if c.team_id != nil %>
-              <%= link_to c.team.name, c.team %> <%= c.team.count.to_s %>/5
-
-              <% else %>
-                  No team
-              <% end %>
-
-            </span>
-          </p>
-        <% end %>
-
-
     </div>
   </div>
-  <span style="margin:10px;right:0;bottom:0;position:fixed">Server time: <%= Time.now.utc.strftime("%B %d, %Y at %I:%M %p")  %></span>
 </body>
 </html>

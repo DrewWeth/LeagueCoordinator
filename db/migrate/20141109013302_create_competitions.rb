@@ -4,7 +4,7 @@ class CreateCompetitions < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.datetime :at
-      t.boolean :active
+      t.boolean :active, :default => true
 
       t.timestamps
     end

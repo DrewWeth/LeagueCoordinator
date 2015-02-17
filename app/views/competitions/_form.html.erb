@@ -13,17 +13,47 @@
 
   <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, :class=> "form-control", :required=> true %>
   </div>
   <div class="field">
     <%= f.label :description %><br>
-    <%= f.text_area :description %>
+    <%= f.text_area :description, :class=> "form-control" %>
   </div>
+
+  <%= f.label "Date and time" %><br>
+
+  <div class="form-group">
+      <div class='input-group date' id='datetimepicker1'>
+          <%= text_field_tag 'datetime', @competition.at.try(:strftime, '%m/%d/%Y %l:%M %p'), {:class=>"form-control", :required=>true, :placeholder=>"Event Date"} %>
+          <!-- <input type='text' name='datetime' class="form-control" /> -->
+          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+      </div>
+  </div>
+
   <div class="field">
-    <%= f.label :at %><br>
-    <%= f.datetime_select :at %>
+    <label>Image (Optional)</label><br>
+    <%= f.text_field :image, :class=> "form-control", :placeholder=>"Image URL" %>
   </div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+          dateFormat: 'YY-mm-dd ',
+          timeFormat: 'hh:mm:ss ',
+          ampm: false
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Create Competition', :class=> "btn btn-primary" %>
   </div>
 <% end %>

@@ -1,30 +1,48 @@
 <p>
   <%= link_to 'Back', @team.competition %>
 </p>
-
+<div class="row">
+  <div class="col-md-6">
 <h2><%= @team.name %></h2>
 
+<p>
+  <strong>Creator:</strong>
+  <%= @team.user.email %>
+</p>
 
 <p>
-  <strong>Active:</strong>
-  <%= @team.active %>
+  <strong>Members:</strong>
+  <%= @team.count %>/5
 </p>
 <p>
 <% if !@is_member %>
-  <%= link_to 'Join Team', {:controller => "teams", :action => "upmate", :id => params["id"]} %>
+  <%= button_to 'Join Team', {:controller => "teams", :action => "upmate", :id => params[:id]}, :method => "get", :class=>"btn btn-primary" %>
 <% else %>
-  <%= link_to 'Leave Team', {:controller => "teams", :action => "downmate", :id => params["id"]} %>
+  <%= button_to 'Leave Team', {:controller => "teams", :action => "downmate", :id => params[:id]}, :method => "get", :class=>"btn btn-primary" %>
 <% end %>
 </p>
-<hr>
+</div>
+<div class="col-md-6">
 
-<p>
-  Members
-</p>
-<% @members.each do |f| %>
-  <div style="margin-bottom:10px;">
-    <div><%= f.user.email.humanize %></div>
-    <% if f.user.phone != nil %><div>Contact: <%= f.user.phone %></div><% end %>
-    <small>Lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
-  </div>
-<% end %>
+<div class="panel panel-default">
+<div class="panel-heading">
+  <span class="panel-title">Team Members <span class="badge"><%= @members.count %></span></span>
+</h3>
+</div>
+<ul class="list-group">
+
+  <% @members.each do |f| %>
+
+    <li class="list-group-item">
+      <span style="float:right"><%= f.team != nil ? "Team: "+ f.team.name : "" %></span>
+
+      <div><%= f.user.email.humanize %></div>
+      <small>lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
+    </li>
+  <% end %>
+</ul>
+
+</div>
+
+</div>
+</div>

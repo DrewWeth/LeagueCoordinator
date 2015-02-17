@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141109043652) do
+ActiveRecord::Schema.define(version: 20150217024524) do
 
   create_table "competitions", force: true do |t|
     t.string   "name"
@@ -21,7 +21,10 @@ ActiveRecord::Schema.define(version: 20141109043652) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.string   "image"
   end
+
+  add_index "competitions", ["user_id"], name: "index_competitions_on_user_id"
 
   create_table "players_in_competitions", force: true do |t|
     t.integer  "competition_id"
@@ -30,6 +33,10 @@ ActiveRecord::Schema.define(version: 20141109043652) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "players_in_competitions", ["competition_id"], name: "index_players_in_competitions_on_competition_id"
+  add_index "players_in_competitions", ["team_id"], name: "index_players_in_competitions_on_team_id"
+  add_index "players_in_competitions", ["user_id"], name: "index_players_in_competitions_on_user_id"
 
   create_table "roles", force: true do |t|
     t.string   "name"
@@ -51,6 +58,9 @@ ActiveRecord::Schema.define(version: 20141109043652) do
     t.integer  "count",          default: 0
     t.integer  "user_id"
   end
+
+  add_index "teams", ["competition_id"], name: "index_teams_on_competition_id"
+  add_index "teams", ["user_id"], name: "index_teams_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

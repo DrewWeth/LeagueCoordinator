@@ -1,0 +1,16 @@
+Your Competitions
+<hr>
+<% @currently_in_competitions.each do |c| %>
+  <p>
+    <%= link_to c.competition.name, c.competition %><br>
+    <span style="color:gray">
+      <% if c.team_id != nil %>
+      <%= link_to c.team.name, c.team %> <%= c.team.count.to_s %>/5
+
+      <% else %>
+          Freelance
+      <% end %>
+
+    </span>
+  </p>
+<% end %>
