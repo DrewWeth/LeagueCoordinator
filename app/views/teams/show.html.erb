@@ -14,13 +14,14 @@
   <strong>Members:</strong>
   <%= @team.count %>/5
 </p>
-<p>
+
 <% if !@is_member %>
   <%= button_to 'Join Team', {:controller => "teams", :action => "upmate", :id => params[:id]}, :method => "get", :class=>"btn btn-primary" %>
 <% else %>
-  <%= button_to 'Leave Team', {:controller => "teams", :action => "downmate", :id => params[:id]}, :method => "get", :class=>"btn btn-primary" %>
+  <%= button_to 'Leave Team', {:controller => "teams", :action => "downmate", :id => params[:id]}, :method => "get", :class=>"btn btn-danger" %>
 <% end %>
-</p>
+
+
 </div>
 <div class="col-md-6">
 

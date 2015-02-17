@@ -12,7 +12,7 @@
       <%= link_to "Leave Competition", {:controller => "competitions", :action => "leave", :id => params[:id]}, :class=> "btn btn-danger pull-right" %>
       <% end %>
     </h1>
-
+  <div class="gray-text">
   <p>
     <strong>Description:</strong>
     <%= @competition.description %>
@@ -29,6 +29,7 @@
     <strong>Organizer:</strong>
     <%= @competition.user.email %>
   </p>
+</div>
 
   <%= link_to 'Admin Access', edit_competition_path(@competition) if current_user and current_user.id == @competition.user_id %>
   </div>
@@ -42,11 +43,14 @@
   </p>
 
   <div class="panel panel-default">
-    <div class="panel-heading">
+    <div class="panel-heading clearfix">
       <span class="panel-title">
-        Teams <span class="badge"><%= @teams.count %></span><%= link_to 'Create Team', new_team_path( :competition_id => params[:id]), :class=>"pull-right" %>
+        <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Teams <span class="badge"><%= @teams.count %></span></h4>
+      <div class="btn-group pull-right">
+        <%= link_to 'Create Team', new_team_path( :competition_id => params[:id]), :class=>"btn btn-info pull-right" %>
+      </div>
 
-      </span>
+
     </h3>
   </div>
   <ul class="list-group">
@@ -103,7 +107,7 @@
     <% @all_players.each do |f| %>
 
     <li class="list-group-item">
-      <span style="float:right"><%= f.team != nil ? "Team: "+ f.team.name : "" %></span>
+      <span style="float:right"><%= link_to f.team.name, f.team if f.team != nil %></span>
 
       <div><%= f.user.email.humanize %></div>
 
