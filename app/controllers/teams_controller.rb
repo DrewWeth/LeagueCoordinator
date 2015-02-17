@@ -18,15 +18,18 @@ class TeamsController < ApplicationController
 
   # GET /teams/new
   def new
-    enforce_login
-    pic = PlayersInCompetitions.where(:competition_id => params[:competition_id], :user_id => current_user.id).take
-    if pic.team_id != nil
-      team = pic.team
-      respond_to do |format|
-        format.html { redirect_to :back, alert: 'You are already part of a team. You must leave <a href="'+ team_url(team) +'">'+ team.name+'</a>'}
+    if current_user != nil
+      pic = PlayersInCompetitions.where(:competition_id => params[:competition_id], :user_id => current_user.id).take
+      if pic.team_id != nil
+        team = pic.team
+        respond_to do |format|
+          format.html { redirect_to :back, alert: 'You are already part of a team. You must leave <a href="'+ team_url(team) +'">'+ team.name+'</a>'}
+        end
+      else
+        @team = Team.new
       end
     else
-      @team = Team.new
+      redirect_to new_user_session_path
     end
   end
 
