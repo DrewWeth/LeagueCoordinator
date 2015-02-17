@@ -20,6 +20,9 @@ class TeamsController < ApplicationController
   def new
     if current_user != nil
       pic = PlayersInCompetitions.where(:competition_id => params[:competition_id], :user_id => current_user.id).take
+      if pic == nil
+        pic = PlayersInCompetitions.create(:competition_id => params[:competition_id], :user_id => current_user.id)
+      end
       if pic.team_id != nil
         team = pic.team
         respond_to do |format|
