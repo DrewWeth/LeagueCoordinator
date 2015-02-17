@@ -10,4 +10,5 @@ class Team < ActiveRecord::Base
     team_id = self.id
     PlayersInCompetitions.where(:team_id => team_id).update_all(:team_id => nil)
   end
+
 end
