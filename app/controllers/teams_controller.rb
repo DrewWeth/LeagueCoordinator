@@ -18,16 +18,27 @@ class TeamsController < ApplicationController
 
   # GET /teams/new
   def new
-    @team = Team.new
+    enforce_login
+    pic = PlayersInCompetitions.where(:competition_id => params[:competition_id], :user_id => current_user.id).take
+    if pic.team_id != nil
+      team = pic.team
+      respond_to do |format|
+        format.html { redirect_to :back, alert: 'You are already part of a team. You must leave <a href="'+ team_url(team) +'">'+ team.name+'</a>'}
+      end
+    else
+      @team = Team.new
+    end
   end
 
   # GET /teams/1/edit
   def edit
+    can_edit?
   end
 
   # POST /teams
   # POST /teams.json
   def create
+    enforce_login
     @team = Team.new(team_params)
     @team.competition_id = params[:competition_id]
     @team.user_id = current_user.id
@@ -140,28 +151,54 @@ class TeamsController < ApplicationController
   # PATCH/PUT /teams/1
   # PATCH/PUT /teams/1.json
   def update
-    respond_to do |format|
-      if @team.update(team_params)
-        format.html { redirect_to @team, notice: 'Team was successfully updated.' }
-        format.json { render :show, status: :ok, location: @team }
-      else
-        format.html { render :edit }
-        format.json { render json: @team.errors, status: :unprocessable_entity }
+    if can_edit?
+      respond_to do |format|
+        if @team.update(team_params)
+          format.html { redirect_to @team, notice: 'Team was successfully updated.' }
+          format.json { render :show, status: :ok, location: @team }
+        else
+          format.html { render :edit }
+          format.json { render json: @team.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to :back, alert: "You cannot do that."
     end
   end
 
   # DELETE /teams/1
   # DELETE /teams/1.json
   def destroy
-    @team.destroy
-    respond_to do |format|
-      format.html { redirect_to teams_url, notice: 'Team was successfully destroyed.' }
-      format.json { head :no_content }
+    if can_edit?
+      @team.destroy
+      respond_to do |format|
+        format.html { redirect_to teams_url, notice: 'Team was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to :back, alert: "You cannot do that."
     end
   end
 
   private
+
+    def enforce_login
+      if current_user == nil
+        redirect_to new_user_session_path
+      end
+    end
+
+    def can_edit?
+      enforce_login
+      if @team.user_id == current_user.id
+        return true
+      elsif @team.competition.user_id == current_user.id
+        return true
+      else
+        return false
+      end
+    end
+
     def is_member?
       @is_member = false
 

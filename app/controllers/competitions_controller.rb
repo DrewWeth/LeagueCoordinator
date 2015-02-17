@@ -22,6 +22,7 @@ class CompetitionsController < ApplicationController
     enforce_login
     @competition = Competition.new
     @competition.at = DateTime.now
+
   end
 
   # GET /competitions/1/edit
@@ -124,25 +125,36 @@ class CompetitionsController < ApplicationController
   # PATCH/PUT /competitions/1
   # PATCH/PUT /competitions/1.json
   def update
-    respond_to do |format|
-      if @competition.update(competition_params)
-        format.html { redirect_to @competition, notice: 'Competition was successfully updated.' }
-        format.json { render :show, status: :ok, location: @competition }
-      else
-        format.html { render :edit }
-        format.json { render json: @competition.errors, status: :unprocessable_entity }
+    if can_edit?
+      respond_to do |format|
+        if @competition.update(competition_params)
+          format.html { redirect_to @competition, notice: 'Competition was successfully updated.' }
+          format.json { render :show, status: :ok, location: @competition }
+        else
+          format.html { render :edit }
+          format.json { render json: @competition.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect :back, alert:"You cannot do that."
     end
+
   end
 
   # DELETE /competitions/1
   # DELETE /competitions/1.json
   def destroy
-    @competition.destroy
-    respond_to do |format|
-      format.html { redirect_to competitions_url, notice: 'Competition was successfully destroyed.' }
-      format.json { head :no_content }
+    if can_edit?
+      @competition.destroy
+      respond_to do |format|
+        format.html { redirect_to competitions_url, notice: 'Competition was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+
+    else
+      redirect :back, alert:"You cannot do that."
     end
+
   end
 
   private
@@ -154,6 +166,16 @@ class CompetitionsController < ApplicationController
         @users_association = pic
       end
     end
+
+    def can_edit?
+      enforce_login
+      if @competition.user_id == current_user.id
+        return true
+      else
+        return false
+      end
+    end
+
 
 
     # Use callbacks to share common setup or constraints between actions.
