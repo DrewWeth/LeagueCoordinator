@@ -44,7 +44,7 @@ class CompetitionsController < ApplicationController
     @data = ""
     @results.each do |r|
         @data += "<a class='list-group-item' href='" + url_for(r) + "'>"
-        @data += r.name + "<span class='pull-right'>" + r.at.to_s +  "</span></a>"
+        @data += r.name + "<span class='pull-right'>" + r.at.strftime("%B %d, %Y at %I:%M %p") +  "</span></a>"
 
     end
 
