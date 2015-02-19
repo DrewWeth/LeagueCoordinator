@@ -39,7 +39,7 @@ class CompetitionsController < ApplicationController
   end
 
   def search
-    @results = Competition.where("name like :kw or description like :kw", :kw=>"%#{params[:query]}%").all
+    @results = Competition.where("name like :kw or description like :kw", :kw=>"%#{params[:query]}%").limit(150)
 
     @data = ""
     @results.each do |r|
