@@ -109,7 +109,7 @@ class CompetitionsController < ApplicationController
     @competition = Competition.new(competition_params)
     # puts "DATETIME-------------------------------------- >> " << Time.strptime(params[:datetime], "%m/%d/%Y %H:%M %p").to_s
     @competition.user_id = current_user.id
-    @competition.at = Time.strptime(params[:datetime] + " UTC", "%m/%d/%Y %H:%M %p %Z") # Hella hacky
+    @competition.at = Time.strptime(params[:at] + " UTC", "%m/%d/%Y %H:%M %p %Z") # Hella hacky
 
     respond_to do |format|
       if @competition.save
