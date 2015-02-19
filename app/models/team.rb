@@ -4,6 +4,9 @@ class Team < ActiveRecord::Base
   belongs_to :competition
   belongs_to :user
 
+  validates_length_of :name, :minimum=>3, :maximum => 25, :allow_blank => false
+
+
   before_destroy :cleanup
 
   def cleanup
