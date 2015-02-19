@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'errors/file_not_found'
+
+  get 'errors/unprocessable'
+
+  get 'errors/internal_server_error'
+
   get 'home/index'
 
   get 'home/about'
@@ -12,11 +18,17 @@ Rails.application.routes.draw do
   get 'teams/downmate/:id', to: 'teams#downmate'
 
   resources :teams
-
+  # match ':controller(/:action(/:id))', :controller => /competitions\/[^\/]+/
+  get 'c/:id' => 'competitions#show'
   get 'competitions/search', to: 'competitions#search'
   get 'competitions/join/:id', to: 'competitions#join'
   get 'competitions/leave/:id', to: 'competitions#leave'
   resources :competitions
+
+
+  match '/404', to: 'errors#file_not_found', via: :all
+  match '/422', to: 'errors#unprocessable', via: :all
+  match '/500', to: 'errors#internal_server_error', via: :all
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
