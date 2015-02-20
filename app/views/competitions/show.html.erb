@@ -44,6 +44,11 @@
         <strong>Organizer:</strong>
         <%= @competition.user.try(:email) %>
       </p>
+      <p>
+        <strong>Quick link:</strong>
+        <% link = root_url + 'c/' + @competition.id.to_s %>
+        <a href="<%= link %>"><%= link %></a>
+      </p>
     </div>
 
     <%= link_to 'Admin Access', edit_competition_path(@competition) if current_user and current_user.id == @competition.user_id %>
