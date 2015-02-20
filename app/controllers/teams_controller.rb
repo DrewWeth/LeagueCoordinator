@@ -62,9 +62,6 @@ class TeamsController < ApplicationController
         end
 
         @pic.team_id = @team.id
-        @team.count += 1
-
-        @team.save
         @pic.save
 
 
@@ -81,7 +78,7 @@ class TeamsController < ApplicationController
   def upmate
     if current_user == nil
       respond_to do |format|
-        format.html { redirect_to new_user_session_path, notice: 'Please login so we have some data to organize your game with. Thank you!' }
+        format.html { redirect_to new_user_session_path, notice: 'Please login to join this team. Thank you!' }
         format.json { render :show, status: :created, location: new_user_session_path }
       end
     else
@@ -94,20 +91,31 @@ class TeamsController < ApplicationController
         @pic.user_id = current_user.id
       end
 
+      can_save = true
 
-      if @pic.team_id != nil
-        old_team = @pic.team
-        old_team.count -= 1
-        old_team.save
+      if @pic.team_id == nil # No team
+        @pic.team_id = params["id"]
+
+
+      elsif @pic.team_id != nil # You were on a diff team
+        if @pic.team_id != @team.id
+          old_team = @pic.team
+          old_team.save
+          @pic.team_id = params["id"]
+
+        else # You're already on this team
+          can_save = false
+        end
       end
 
-      @pic.team_id = params["id"]
-      @team.count += 1
+
 
       respond_to do |format|
-        if @pic.save
-          @team.save
+        if can_save and @pic.save
           format.html { redirect_to @team, notice: 'You joined this team. Good luck!' }
+          format.json { render :show, status: :created, location: @competition }
+        elsif !can_save
+          format.html { redirect_to @team, alert: "You're already on this team" }
           format.json { render :show, status: :created, location: @competition }
         else
           format.html { render :new }
@@ -130,12 +138,10 @@ class TeamsController < ApplicationController
       @team = Team.find(params["id"])
       @pic = PlayersInCompetitions.where(:competition_id => @team.competition_id).where(:user_id => current_user.id).take
       @pic.team_id = nil
-      @team.count -= 1
 
       respond_to do |format|
         if @pic.save
           if @team.count > 0
-            @team.save
             format.html { redirect_to @team, notice: 'You successfully left this team.' }
             format.json { render :show, status: :created, location: @team }
 
