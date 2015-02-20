@@ -1,3 +1,7 @@
+// Reference
+// BLUE: #4A86E8
+
+
 body {
   background-color: #fff;
   color: #333;
@@ -15,6 +19,58 @@ p, ol, ul, td {
 .red-link{
   color:red;
 }
+
+.back-buffer{
+  margin-top:5px;
+  margin-bottom:5px;
+}
+.inline{
+  display:inline;
+}
+
+#ly{
+  border-top:1px solid rgba(74, 134, 232, 0.29);
+
+}
+
+
+/* Glyph, by Harry Roberts */
+
+hr.style-eight {
+    margin-top:20px;
+    color: #4A86E8;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left, rgba(119,119,119,0), rgba(119,119,119,0.75), rgba(119,119,119,0));
+    background-image:    -moz-linear-gradient(left, rgba(119,119,119,0), rgba(119,119,119,0.75), rgba(119,119,119,0));
+    background-image:     -ms-linear-gradient(left, rgba(119,119,119,0), rgba(119,119,119,0.75), rgba(119,119,119,0));
+    background-image:      -o-linear-gradient(left, rgba(119,119,119,0), rgba(119,119,119,0.75), rgba(119,119,119,0));
+    text-align: center;
+}
+hr.style-eight:after {
+
+    content: "Ly";
+    display: inline-block;
+    position: relative;
+    top: -0.7em;
+    font-size: 0.9em;
+    padding: 0 0.25em;
+    background: white;
+}
+
+p{
+  font-size:1em;
+  font-family: 'Droid Serif', serif;
+  font-style:italic;
+  color:#777;
+}
+
+.p-font{
+  font-family: 'Droid Serif', serif;
+  font-style:italic;
+  color:#777;
+}
+
 .gray-text{
   color:#777;
 

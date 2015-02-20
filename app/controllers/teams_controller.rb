@@ -38,7 +38,9 @@ class TeamsController < ApplicationController
 
   # GET /teams/1/edit
   def edit
-    can_edit?
+    if !can_edit?
+      redirect_to root, notice: "You cannot edit this page"
+    end
   end
 
   # POST /teams
