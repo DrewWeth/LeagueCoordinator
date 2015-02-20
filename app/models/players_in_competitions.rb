@@ -19,16 +19,16 @@ class PlayersInCompetitions < ActiveRecord::Base
         id = changes[1]
         team = Team.find(id)
         count = PlayersInCompetitions.where(:team_id => team.id).count
-        puts team.update(count: count)
-        puts "count is #{count} for #{self.team_id_was}"
+        team.update(count: count)
+
 
       else
 
         id = changes[0]
         team = Team.find(id)
         count = PlayersInCompetitions.where(:team_id => team.id).count
-        puts team.update(count: count)
-        puts "count is #{count} for #{self.team_id_was}"
+        team.update(count: count)
+        
 
       end
     end

@@ -139,6 +139,8 @@ class TeamsController < ApplicationController
       @pic = PlayersInCompetitions.where(:competition_id => @team.competition_id).where(:user_id => current_user.id).take
       @pic.team_id = nil
 
+      @team.count -= 1
+
       respond_to do |format|
         if @pic.save
           if @team.count > 0
