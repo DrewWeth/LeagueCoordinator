@@ -93,18 +93,14 @@ class TeamsController < ApplicationController
 
       can_save = true
 
-      if @pic.team_id == nil # No team
+      if @pic.team_id == nil # Not on a team
         @pic.team_id = params["id"]
-
-
-      elsif @pic.team_id != nil # You were on a diff team
-        if @pic.team_id != @team.id
-          old_team = @pic.team
-          old_team.save
-          @pic.team_id = params["id"]
-
-        else # You're already on this team
+      else
+        if @pic.team_id == @team.id
           can_save = false
+        else
+          @pic.team_id = params["id"]
+          @pic.save
         end
       end
 
@@ -140,20 +136,18 @@ class TeamsController < ApplicationController
       @pic.team_id = nil
 
       @team.count -= 1
+      competition = @team.competition
 
       respond_to do |format|
         if @pic.save
-          if @team.count > 0
+          if @team.count <= 0
+            format.html { redirect_to competition, notice: 'You successfully left this team.' }
+            format.json { render :show, status: :created, location: @team }
+          else
             format.html { redirect_to @team, notice: 'You successfully left this team.' }
             format.json { render :show, status: :created, location: @team }
-
-          else
-            competition = @team.competition
-            @team.destroy
-            format.html { redirect_to competition, notice: 'You successfully removed this team.' }
-            format.json { render :show, status: :created, location: @team }
-
           end
+
         else
           format.html { render :new }
           format.json { render json: @team.errors, status: :unprocessable_entity }
