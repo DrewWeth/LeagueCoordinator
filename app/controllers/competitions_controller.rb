@@ -63,7 +63,7 @@ class CompetitionsController < ApplicationController
 
       respond_to do |format|
         if @pic.save
-          flash[:js] = 'swal({title: "Congratz!", text: "You have joined ", type:"info", confirmButtonText: "Okay", allowOutsideClick: true, confirmButtonColor: "#F1B82D"});'
+          flash[:js] = '<script>swal({title: "Congratz!", text: "You have joined '+@competition.name+' as a freelance player. You can now join a team.", type:"success", confirmButtonText: "Okay", allowOutsideClick: true, confirmButtonColor: "#4A86E8"});</script>'
 
           format.html { redirect_to @competition, notice: 'You successfully joined this competition. You can now make or join teams!' }
           format.json { render :show, status: :created, location: @competition }
