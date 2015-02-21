@@ -88,7 +88,8 @@
       <%= yield %>
     </div>
   </div>
-  <hr class="style-eight p-font">
+  <div style="margin-top:20px"></div>
+  <!-- <hr class="style-eight p-font"> -->
   <% if !flash[:js].blank? %>
     <%= flash[:js].html_safe %>
   <% end %>
