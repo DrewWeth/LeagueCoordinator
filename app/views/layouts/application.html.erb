@@ -91,7 +91,7 @@
   </div>
   <hr class="style-eight p-font">
   <% if !flash[:js].blank? %>
-    <span id="js"><%= flash[:js].html_safe %></span>
+    <script><%= flash[:js].html_safe %></script>
   <% end %>
 </div>
 
