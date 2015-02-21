@@ -150,19 +150,10 @@
 </div>
 </div>
 </div>
-<div id="map"></div>
-
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
 
 <% if !@competition.latitude.blank? and !@competition.longitude.blank? %>
+<div id="map"></div>
+
 <script>
 // create a map in the "map" div, set the view to a given place and zoom
   var map = L.map('map').setView([<%= @competition.latitude %>, <%= @competition.longitude %>], 13);
@@ -178,3 +169,12 @@
       .openPopup();
 </script>
 <% end %>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
