@@ -1,4 +1,6 @@
 class Competition < ActiveRecord::Base
+  include ActiveModel::Dirty
+
   has_many :players_in_competitions, dependent: :destroy
   has_many :users, :through => :players_in_competitions
   has_many :teams, dependent: :destroy
@@ -12,7 +14,8 @@ class Competition < ActiveRecord::Base
 
   belongs_to :user
 
-
+  geocoded_by :location
+  after_validation :geocode
 
 
 end

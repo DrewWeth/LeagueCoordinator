@@ -41,6 +41,18 @@
     <%= f.text_field :image, :class=> "form-control", :placeholder=>"Image URL" %>
   </div>
 
+  <div class="field buffer-top">
+    <label>Facebook Page URL (Optional)</label><br>
+    <%= f.text_field :fb_page_url, :class=> "form-control", :placeholder=>"Facebook Page URL" %>
+  </div>
+
+
+
+  <div class="actions">
+    <%= f.submit 'Save Competition', :class=> "btn btn-primary" %>
+  </div>
+<% end %>
+
 <script type="text/javascript">
     $(function () {
         $('#datetimepicker1').datetimepicker({
@@ -50,11 +62,3 @@
         });
     });
 </script>
-
-
-
-
-  <div class="actions">
-    <%= f.submit 'Save Competition', :class=> "btn btn-primary" %>
-  </div>
-<% end %>

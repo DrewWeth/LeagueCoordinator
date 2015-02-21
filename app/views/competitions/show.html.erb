@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
 <%= link_to 'Back', competitions_path, :class=>"back-buffer" %>
 
 <div class="row">
@@ -10,7 +13,7 @@
 
         <h1>
           <% if !@is_member %>
-            <%= link_to "Join Competition" , {:controller => "competitions", :action => "join", :id => params[:id]}, :class => "btn btn-success pull-right" %>
+            <%= link_to "Join Tournament" , {:controller => "competitions", :action => "join", :id => params[:id]}, :class => "btn btn-success pull-right" %>
           <% else %>
 
             <div class="dropdown pull-right">
@@ -45,11 +48,19 @@
         <%= @competition.user.try(:email) %>
       </p>
       <p>
-        <strong>Quick link:</strong>
+        <strong>Short link:</strong>
         <% link = root_url + 'c/' + @competition.id.to_s %>
         <a href="<%= link %>"><%= link %></a>
       </p>
+
+      <p>
+        <% if !@competition.fb_page_url.blank? %>
+          <div class="fb-like" data-href="<%= @competition.fb_page_url %>" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+        <% end %>
+      </p>
+
     </div>
+
 
     <%= link_to 'Admin Access', edit_competition_path(@competition) if current_user and current_user.id == @competition.user_id %>
   </div>
@@ -139,3 +150,31 @@
 </div>
 </div>
 </div>
+<div id="map"></div>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<% if !@competition.latitude.blank? and !@competition.longitude.blank? %>
+<script>
+// create a map in the "map" div, set the view to a given place and zoom
+  var map = L.map('map').setView([<%= @competition.latitude %>, <%= @competition.longitude %>], 13);
+  map.scrollWheelZoom.disable();
+  // add an OpenStreetMap tile layer
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  // add a marker in the given location, attach some popup content to it and open the popup
+  L.marker([<%= @competition.latitude %>, <%= @competition.longitude %>]).addTo(map)
+      .bindPopup('<h2 class="center"><%= @competition.name %></h2><br><%= @competition.location %>')
+      .openPopup();
+</script>
+<% end %>

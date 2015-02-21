@@ -10,7 +10,6 @@ class CompetitionsController < ApplicationController
   # GET /competitions/1
   # GET /competitions/1.json
   def show
-
     @teams = @competition.teams.order('name')
     is_member?
     @freelancers = PlayersInCompetitions.where(:competition_id => @competition.id).where(:team_id => nil)
@@ -43,12 +42,9 @@ class CompetitionsController < ApplicationController
 
     @data = ""
     @results.each do |r|
-        @data += "<a class='list-group-item' href='" + url_for(r) + "'>"
-        @data += r.name + "<span class='pull-right'>" + r.at.strftime("%B %d, %Y at %I:%M %p") +  "</span></a>"
-
+      @data += "<a class='list-group-item' href='" + url_for(r) + "'>"
+      @data += r.name + "<span class='pull-right'>" + r.at.strftime("%B %d, %Y at %I:%M %p") +  "</span></a>"
     end
-
-
     render :html => @data.html_safe
   end
 
@@ -65,9 +61,9 @@ class CompetitionsController < ApplicationController
       @pic.competition_id = params["id"]
       @pic.user_id = current_user.id
 
-
       respond_to do |format|
         if @pic.save
+          flash[:js] = '<script>alert("Yay!");</script>'
           format.html { redirect_to @competition, notice: 'You successfully joined this competition. You can now make or join teams!' }
           format.json { render :show, status: :created, location: @competition }
         else
@@ -100,7 +96,6 @@ class CompetitionsController < ApplicationController
       end
     end
   end
-
 
   # POST /competitions
   # POST /competitions.json
@@ -152,11 +147,9 @@ class CompetitionsController < ApplicationController
         format.html { redirect_to competitions_url, notice: 'Competition was successfully destroyed.' }
         format.json { head :no_content }
       end
-
     else
       redirect :back, alert:"You cannot do that."
     end
-
   end
 
   private
@@ -177,8 +170,6 @@ class CompetitionsController < ApplicationController
         return false
       end
     end
-
-
 
     # Use callbacks to share common setup or constraints between actions.
     def set_competition
@@ -201,6 +192,6 @@ class CompetitionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def competition_params
-      params.require(:competition).permit(:name, :description, :at, :active, :user_id, :image, :location)
+      params.require(:competition).permit(:name, :description, :at, :active, :user_id, :image, :location, :fb_page_url)
     end
 end

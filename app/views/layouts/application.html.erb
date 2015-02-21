@@ -35,7 +35,6 @@
         <span class="icon-bar"></span>
       </button>
       <%= link_to image_tag("http://i.imgur.com/krFoOHl.png", :class=>"brand"), root_path, :id=>"navbar-link", :class=>"navbar-brand" %>
-
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -78,20 +77,22 @@
       <% if !notice.blank? %>
         <div class="alert alert-success alert-dismissible" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <span id="notice"><%= notice.html_safe %></span>
+          <span id="notice"><%= notice  %></span>
         </div>
         <% end %>
         <% if !alert.blank? %>
           <div class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <span id="alert"><%= alert.html_safe %></span>
+            <span id="alert"><%= alert %></span>
           </div>
         <% end %>
-
       <%= yield %>
     </div>
   </div>
   <hr class="style-eight p-font">
+  <% if !flash[:js].blank? %>
+    <span id="js"><%= flash[:js].html_safe %></span>
+  <% end %>
 </div>
 
 
