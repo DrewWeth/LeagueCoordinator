@@ -55,6 +55,8 @@
 
       <p>
         <% if !@competition.fb_page_url.blank? %>
+        <strong>More info:</strong>
+        <a href="<%= @competition.fb_page_url %>"><%= @competition.fb_page_url %></a>
           <div class="fb-like" data-href="<%= @competition.fb_page_url %>" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
         <% end %>
       </p>
