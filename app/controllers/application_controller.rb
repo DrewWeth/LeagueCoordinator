@@ -4,7 +4,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  after_filter :store_location
+  before_action :set_default_params
+
+  # after_filter :store_location
 
   before_filter :add_www_subdomain if Rails.env.production?
 
@@ -30,10 +32,9 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    session[:previous_url] || root_path
+    session[:previous_url]
   end
 
-  before_action :set_default_params
 
   def set_default_params
     @currently_in_competitions = []
