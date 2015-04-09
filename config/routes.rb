@@ -1,15 +1,11 @@
 Rails.application.routes.draw do
 
-  
-
   get 'home/index'
 
   get 'home/about'
 
   get 'home/help'
 
-  root to: "home#index"
-  devise_for :users
 
   get 'teams/upmate/:id', to: 'teams#upmate'
   get 'teams/downmate/:id', to: 'teams#downmate'
@@ -22,6 +18,8 @@ Rails.application.routes.draw do
   get 'competitions/leave/:id', to: 'competitions#leave'
   resources :competitions
 
+  root to: "home#index"
+  devise_for :users
 
   match '/404', to: 'errors#file_not_found', via: :all
   match '/422', to: 'errors#unprocessable', via: :all
@@ -32,7 +30,6 @@ Rails.application.routes.draw do
   get 'errors/unprocessable'
 
   get 'errors/internal_server_error'
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
