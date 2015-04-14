@@ -12,7 +12,6 @@
 /db/*.sqlite3-journal
 
 
-/app/controllers/home_controller.rb
 
 # Ignore all logfiles and tempfiles.
 /log/*.log

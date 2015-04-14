@@ -25,8 +25,8 @@ class HomeController < ApplicationController
 
       require 'twilio-ruby'
 
-  		account_sid = 'AC29e7b96239c5f0bfc6ab8b724e263f30'
-  		auth_token = '77d93608f97102a6011bb3fd90229a85'
+  		account_sid = ENV['TWILIO_SID']
+  		auth_token = ENV['TWILIO_TOKEN']
 
   		begin
   			@client = Twilio::REST::Client.new account_sid, auth_token
