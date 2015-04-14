@@ -16,6 +16,8 @@ group :production do
   gem 'pg'
 end
 
+gem 'twilio-ruby', '~> 3.12'
+
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 

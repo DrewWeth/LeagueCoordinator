@@ -85,13 +85,13 @@
             <span id="alert"><%= alert %></span>
           </div>
         <% end %>
-        
+
       <%= yield %>
     </div>
   </div>
   <div style="margin-top:20px"></div>
   <!-- <hr class="style-eight p-font"> -->
-  <% if !flash[:js].blank? %>
+  <% if not flash[:js].blank? %>
     <%= flash[:js].html_safe %>
   <% end %>
 </div>

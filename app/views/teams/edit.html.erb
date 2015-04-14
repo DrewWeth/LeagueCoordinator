@@ -1,15 +1,20 @@
 <%= link_to 'Back', :back, :class=>"back-buffer" %>
-<h1>Editing team</h1>
-
-<%= render 'form' %>
-
+<h1>Edit <%= @team.name %></h1>
 <div class="row">
-  <div class="col-md-3">
-<%= link_to 'Cancel', @team %>
-</div>
-<div class="col-md-2">
-<%= link_to 'Destroy', team_url(@team), method: :delete, style: "margin-bottom:40px", class:"btn btn-sm btn-danger pull-right", data: { confirm: 'Are you sure?' } %>
+  <div class="col-sm-5">
+    <%= render 'form' %>
+    <%= link_to 'Cancel', @team %>
+    <%= link_to 'Destroy', team_url(@team), method: :delete, style: "margin-bottom:40px", class:"btn btn-sm btn-danger pull-right", data: { confirm: 'Are you sure?' } %>
 
+  </div>
 
-</div>
+  <div class="col-sm-7">
+    <h4>Players</h4>
+    <ul class="list-group">
+    <% @players.each do |player| %>
+    <li class="list-group-item">
+      <%= player.email %> | <%= player.summoner_name %> <%= link_to 'Remove', down_mate_path(:user_id => player.id), :class=>"pull-right" %>
+    </li>
+    <% end %>
+  </div>
 </div>

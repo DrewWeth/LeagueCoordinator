@@ -8,7 +8,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-7">
     <div class="row">
       <div class="col-xs-8">
         <h1><%= @competition.name %></h1>
@@ -70,11 +70,10 @@
 
     <%= link_to 'Admin Access', edit_competition_path(@competition) if current_user and current_user.id == @competition.user_id %>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-5">
     <center><%= image_tag(@competition.image, :class=>"img img-responsive") if !@competition.image.blank? %></center>
   </div>
 </div>
-<hr>
 
 <p>
 </p>
@@ -91,7 +90,7 @@
     </h3>
   </div>
   <ul class="list-group">
-    <%= "<li class='list-group-item'>There are no teams yet</li>".html_safe if @teams.empty? %>
+    <%= "<li class='list-group-item'>There are no teams yet.</li>".html_safe if @teams.empty? %>
     <% @teams.each do |f| %>
 
     <a class="list-group-item" href="<%= url_for f %>">
@@ -104,7 +103,6 @@
 
 </div>
 
-<hr>
 
 <div class="row">
   <div class="col-md-6">

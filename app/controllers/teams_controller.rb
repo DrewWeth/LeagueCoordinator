@@ -41,6 +41,7 @@ class TeamsController < ApplicationController
     if !can_edit?
       redirect_to root, notice: "You cannot edit this page"
     end
+    @players = get_members(@team.competition_id, @team.id)
   end
 
   # POST /teams
@@ -132,6 +133,7 @@ class TeamsController < ApplicationController
     else
 
       @team = Team.find(params["id"])
+      user = params["user_id"] || current_user.id
       @pic = PlayersInCompetitions.where(:competition_id => @team.competition_id).where(:user_id => current_user.id).take
       @pic.team_id = nil
 
@@ -191,6 +193,9 @@ class TeamsController < ApplicationController
   end
 
   private
+    def get_members(comp, team)
+      PlayersInCompetitions.where(:competition_id => comp, :team_id => team).map{|x| x.user}
+    end
 
     def enforce_login
       if current_user == nil

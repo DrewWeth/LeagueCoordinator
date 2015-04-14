@@ -5,10 +5,10 @@ Rails.application.routes.draw do
   get 'home/about'
 
   get 'home/help'
-
+  post 'home/distribute' => 'home#distribute', :as => 'distribute'
 
   get 'teams/upmate/:id', to: 'teams#upmate'
-  get 'teams/downmate/:id', to: 'teams#downmate'
+  get 'teams/downmate/:id', to: 'teams#downmate', :as => "down_mate"
 
   resources :teams
   # match ':controller(/:action(/:id))', :controller => /competitions\/[^\/]+/
