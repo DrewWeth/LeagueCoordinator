@@ -48,7 +48,7 @@ class HomeController < ApplicationController
 
       flash[:notice] = message + " sent to: " + targets.join(', ')
     end
-    redirect_to comp
+    redirect_to comp || root_path
   end
 
 end

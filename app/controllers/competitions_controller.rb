@@ -38,12 +38,12 @@ class CompetitionsController < ApplicationController
   end
 
   def search
-    @results = Competition.where("name like :kw or description like :kw", :kw=>"%#{params[:query]}%").limit(150)
+    @results = Competition.where("lower(name) like :kw or lower(description) like :kw", :kw =>"%#{params[:query].downcase}%").limit(50)
 
     @data = ""
     @results.each do |r|
       @data += "<a class='list-group-item' href='" + url_for(r) + "'>"
-      @data += r.name + "<span class='pull-right'>" + r.at.strftime("%B %d, %Y at %I:%M %p") +  "</span></a>"
+      @data += r.name + "<span class='pull-right'>#{r.at.strftime("%B %d, %Y at %I:%M %p")}</span><p style='margin:0px'>#{r.description}</p></a>"
     end
     render :html => @data.html_safe
   end

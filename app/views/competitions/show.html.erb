@@ -14,21 +14,20 @@
         <h1><%= @competition.name %></h1>
       </div>
       <div class="col-xs-4">
-
         <h1>
           <% if !@is_member %>
-            <%= link_to "Join Tournament" , {:controller => "competitions", :action => "join", :id => params[:id]}, :class => "btn btn-success pull-right" %>
+          <%= link_to "Join Tournament" , {:controller => "competitions", :action => "join", :id => params[:id]}, :class => "btn btn-success pull-right" %>
           <% else %>
 
-            <div class="dropdown pull-right">
-              <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                Accepted
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= url_for({:controller => "competitions", :action => "leave", :id => params[:id]}) %>">Leave Competition</a></li>
-              </ul>
-            </div>
+          <div class="dropdown pull-right">
+            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+              Accepted
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= url_for({:controller => "competitions", :action => "leave", :id => params[:id]}) %>">Leave Competition</a></li>
+            </ul>
+          </div>
           <% end %>
         </h1>
       </div>
@@ -61,7 +60,7 @@
         <% if !@competition.fb_page_url.blank? %>
         <strong>More info:</strong>
         <a href="<%= @competition.fb_page_url %>"><%= @competition.fb_page_url %></a>
-          <div class="fb-like" data-href="<%= @competition.fb_page_url %>" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+        <div class="fb-like" data-href="<%= @competition.fb_page_url %>" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
         <% end %>
       </p>
 
@@ -86,27 +85,23 @@
         <%= link_to 'Create Team', new_team_path( :competition_id => params[:id]), :class=>"btn btn-info pull-right" %>
       </div>
 
-
     </h3>
   </div>
   <ul class="list-group">
     <%= "<li class='list-group-item'>There are no teams yet.</li>".html_safe if @teams.empty? %>
     <% @teams.each do |f| %>
-
-    <a class="list-group-item" href="<%= url_for f %>">
-      <div><b><%= f.name  %></b></div>
-      <div><%= f.count %>/5 members</div>
-
-    </a>
+      <a class="list-group-item" href="<%= url_for f %>">
+        <div><b><%= f.name  %></b>
+          <span class="pull-right"><%= f.count %>/5 members</span>
+        </div>
+      </a>
     <% end %>
   </ul>
-
 </div>
 
 
 <div class="row">
   <div class="col-md-6">
-
     <div class="panel panel-default">
       <div class="panel-heading">
         <span class="panel-title">Freelance Players <span class="badge"><%= @freelancers.count %></span></span>
@@ -115,23 +110,18 @@
     <ul class="list-group">
       <%= "<li class='list-group-item'>There are no freelance players</li>".html_safe if @freelancers.empty? %>
       <% @freelancers.each do |f| %>
+        <li class="list-group-item">
+          <span style="float:right"><%= f.team != nil ? "Team: "+ f.team.name : "" %></span>
 
-      <li class="list-group-item">
-        <span style="float:right"><%= f.team != nil ? "Team: "+ f.team.name : "" %></span>
+          <div><%= f.user.email.humanize %></div>
 
-        <div><%= f.user.email.humanize %></div>
-
-        <small>lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
-      </li>
+          <small>lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
+        </li>
       <% end %>
     </ul>
-
   </div>
-
-
 </div>
 <div class="col-md-6">
-
   <div class="panel panel-default">
     <div class="panel-heading">
       <span class="panel-title">All Players <span class="badge"><%= @all_players.count %></span></span>
@@ -160,17 +150,17 @@
 
 <script>
 // create a map in the "map" div, set the view to a given place and zoom
-  var map = L.map('map').setView([<%= @competition.latitude %>, <%= @competition.longitude %>], 13);
-  map.scrollWheelZoom.disable();
-  // add an OpenStreetMap tile layer
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
+var map = L.map('map').setView([<%= @competition.latitude %>, <%= @competition.longitude %>], 13);
+map.scrollWheelZoom.disable();
+// add an OpenStreetMap tile layer
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
-  // add a marker in the given location, attach some popup content to it and open the popup
-  L.marker([<%= @competition.latitude %>, <%= @competition.longitude %>]).addTo(map)
-      .bindPopup('<h2 class="center"><%= @competition.name %></h2><br><%= @competition.location %>')
-      .openPopup();
+// add a marker in the given location, attach some popup content to it and open the popup
+L.marker([<%= @competition.latitude %>, <%= @competition.longitude %>]).addTo(map)
+.bindPopup('<h2 class="center"><%= @competition.name %></h2><br><%= @competition.location %>')
+.openPopup();
 </script>
 <% end %>
 
