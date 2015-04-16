@@ -1,4 +1,9 @@
 class ApplicationController < ActionController::Base
+
+  RED = "16711680"
+  DIV = "3335782"
+  GREEN = "008000"
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -9,6 +14,9 @@ class ApplicationController < ActionController::Base
   after_filter :store_location
 
   before_filter :add_www_subdomain if Rails.env.production?
+
+  helper_method :get_color
+
 
   protected
   def configure_permitted_parameters
@@ -76,6 +84,22 @@ class ApplicationController < ActionController::Base
 
   def devise_mapping
     @devise_mapping ||= Devise.mappings[:user]
+  end
+
+
+  def get_color( n )
+    return GREEN if n > 5
+    return RED.to_i.to_s(16) if n < 0
+    color = (RED.to_i - ( DIV.to_i * n ) ).to_i.to_s(16)
+    check_length(color)
+  end
+
+  def check_length(color)
+    diff = 6 - color.length
+    if diff > 0
+      color.prepend("0" * diff)
+    end
+    color.prepend("#")
   end
 
   private

@@ -92,7 +92,7 @@
     <% @teams.each do |f| %>
       <a class="list-group-item" href="<%= url_for f %>">
         <div><b><%= f.name  %></b>
-          <span class="pull-right"><%= f.count %>/5 members</span>
+          <span class="pull-right" style="color: <%= get_color(f.count) %>"><%= f.count %>/5 members</span>
         </div>
       </a>
     <% end %>
