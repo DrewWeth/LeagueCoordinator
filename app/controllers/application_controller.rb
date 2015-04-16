@@ -88,9 +88,9 @@ class ApplicationController < ActionController::Base
 
 
   def get_color( n )
-    return GREEN if n > 5
-    return RED.to_i.to_s(16) if n < 0
-    color = (RED.to_i - ( DIV.to_i * n ) ).to_i.to_s(16)
+    return GREEN.prepend("#") if n > 5
+    return RED.to_i.to_s(16).prepend("#") if n < 2
+    color = (RED.to_i - ( DIV.to_i * ( n - 1 ) ) ).to_i.to_s(16)
     check_length(color)
   end
 
