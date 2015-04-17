@@ -10,6 +10,14 @@ body {
   line-height: 18px;
 }
 
+
+div.caption {
+  position: relative;
+  top: 50%;
+  // transform: translateY(-50%);
+}
+
+
 img.brand{
   margin-top:-15px;
 }

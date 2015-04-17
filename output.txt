@@ -1,0 +1,54 @@
+Running `rails c` attached to terminal... up, run.6236
+PlayersInCompetitions.where(competition_id: 3, team_id:nil).map{|x| x.user.email }
+Loading production environment (Rails 4.1.4)
+irb(main):001:0> PlayersInCompetitions.where(competition_id: 3, team_id:nil).map{|x| x.user.email }
+  [1m[36mPlayersInCompetitions Load (3.4ms)[0m  [1mSELECT "players_in_competitions".* FROM "players_in_competitions"  WHERE "players_in_competitions"."competition_id" = 3 AND "players_in_competitions"."team_id" IS NULL[0m
+  [1m[35mUser Load (2.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 78]]
+  [1m[36mUser Load (1.4ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 8]]
+  [1m[35mUser Load (1.3ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 88]]
+  [1m[36mUser Load (1.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 28]]
+  [1m[35mUser Load (1.3ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 94]]
+  [1m[36mUser Load (1.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 30]]
+  [1m[35mUser Load (2.7ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 36]]
+  [1m[36mUser Load (5.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 37]]
+  [1m[35mUser Load (3.6ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 45]]
+  [1m[36mUser Load (1.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 49]]
+  [1m[35mUser Load (1.2ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 67]]
+  [1m[36mUser Load (1.2ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 68]]
+  [1m[35mUser Load (1.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 61]]
+  [1m[36mUser Load (1.1ms)[0m  [1mSELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 19]]
+  [1m[35mUser Load (1.1ms)[0m  SELECT  "users".* FROM "users"  WHERE "users"."id" = $1 LIMIT 1  [["id", 72]]
+=> ["dubsav@gmail.com", "random1@random.com", "jpdvdb@mail.missouri.edu", "lamper123@yahoo.com", "tljwvf@mail.missouri.edu", "bcast59@aol.com", "mpc3n3@mail.missouri.edu", "akv22@mail.missouri.edu", "mfkyc4@mail.missouri.edu", "njmfzf@mail.missouri.edu", "rzendacott@gmail.com", "shaneburkhart@gmail.com", "bnp98f@missouri.edu", "sbgkv9@mail.missouri.edu", "dromero1995@hotmail.com"]
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> ^C
+irb(main):002:0> 

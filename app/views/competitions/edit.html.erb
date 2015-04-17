@@ -1,69 +1,54 @@
 <%= link_to 'Back', competitions_path %>
 
-<h1>Edit <%= @competition.name %>
+<h1>Manage <%= @competition.name %>
   <ul class="nav nav-pills navbar-right">
     <li role="presentation" class="pull-right"><a data-toggle="tab" href="#tools">Tools</a></li>
     <li role="presentation" class="pull-right"><a data-toggle="tab" href="#management">Management</a></li>
     <li role="presentation" class="active pull-right"><a data-toggle="tab" href="#info">Basic Info</a></li>
-
-
   </ul>
 </h1>
 
-  <div class="tab-content">
-    <div id="info" class="tab-pane active">
-      <div class="row">
-        <div class="col-md-5">
-          <%= render 'form' %>
-        </div>
-      </div>
-      <%= link_to 'Cancel', @competition %>
-      <br>
-      <br>
-      <br>
-      <br>
-      <%= link_to 'Destroy', competition_url(@competition), method: :delete, class:"btn btn-danger", data: { confirm: 'Are you sure?' } %>
-      <br>
-      <br>
-    </div>
-    <div id="management" class="tab-pane">
-      <div class="row">
-        <div class="col-md-3">
-
-          <h4>Teams</h4>
-
-          <ul>
-            <% @teams.each do |t| %>
-            <li>
-              <%= link_to t.name, t %>
-              <span class="pull-right">
-                <%= link_to edit_team_path(t), :class=>"pull-right" do %><i class="glyphicon glyphicon-edit"></i><% end %>
-                <label style="margin-right:10px" class="badge"><%= t.count %></label>
-              </span>
-            </li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="col-md-7">
-
-        </div>
+<div class="tab-content">
+  <div id="info" class="tab-pane active">
+    <div class="row">
+      <div class="col-md-5">
+        <%= render 'form' %>
       </div>
     </div>
-
-    <div id="tools" class="tab-pane">
-      <div class="row">
-        <div class="col-sm-5">
-          <h4>Text Participants</h4>
-
-          <%= form_tag(url_for(distribute_path(:competition => @competition.id)), method: "post") do %>
-            <div class="form-group">
-
-            <%= text_field_tag(:message, nil, {:class => "form-control", :placeholder => "Message"}) %>
-          </div>
-            <%= submit_tag("Send", :confirm => "You sure?", :class=>"btn btn-primary") %>
-          <% end %>
-
-        </div>
+    <%= link_to 'Cancel', @competition %>
+    <br>
+    <br>
+    <br>
+    <br>
+    <%= link_to 'Destroy', competition_url(@competition), method: :delete, class:"btn btn-danger", data: { confirm: 'Are you sure?' } %>
+    <br>
+    <br>
+  </div>
+  <div id="management" class="tab-pane">
+    <div class="row">
+      <div class="col-sm-12">
+        <h4>Teams</h4>
       </div>
+
+
+
+      <% @teams.each do |t| %>
+
+      <%= render partial: "team", object: t %>
+
+      <% end %>
+    </div>
+    <div class="col-md-7">
+      <h4>Freelancers</h4>
+      <ul>
+        <% @freelancers.each do |u| %>
+          <%= render partial: "user", object: u.user %>
+        <% end %>
+      </ul>
     </div>
   </div>
+
+  <div id="tools" class="tab-pane">
+    <%= render "tools" %>
+  </div>
+</div>

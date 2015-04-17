@@ -1,0 +1,21 @@
+
+<div class="row" style="margin-top:30px">
+  <div class="col-sm-8 col-sm-offset-2">
+    <h4>Email List <label class="badge"><%= @emails_all.count %></label></h4>
+    <%= @emails_all.join(', ') %>
+  </div>
+</div>
+<div class="row" style="margin-top:30px">
+  <div class="col-sm-8 col-sm-offset-2">
+    <h4>Text Participants</h4>
+
+    <%= form_tag(url_for(distribute_path(:competition => @competition.id)), method: "post") do %>
+    <div class="form-group">
+
+      <%= text_field_tag(:message, nil, {:class => "form-control", :placeholder => "Message"}) %>
+    </div>
+    <%= submit_tag("Send", data: { confirm: "Are you sure?" }, :class=>"btn btn-primary") %>
+    <% end %>
+
+  </div>
+</div>

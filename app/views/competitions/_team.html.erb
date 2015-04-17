@@ -1,0 +1,12 @@
+<div class="col-sm-6 col-sm-4">
+  <div class="thumbnail">
+    <label class="badge pull-right"><%= team.count %>/5</label>
+    <div class="caption">
+      <center><h1><%= link_to team.name, team %></h1>
+        <%= link_to edit_team_path(team), :class=>"btn btn-primary" do %>Edit <i class="glyphicon glyphicon-edit"></i><% end %>
+        <br>
+
+      </center>
+    </div>
+  </div>
+</div>

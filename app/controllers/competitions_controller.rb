@@ -26,14 +26,15 @@ class CompetitionsController < ApplicationController
 
   # GET /competitions/1/edit
   def edit
-    @teams = Team.where(:competition_id => @competition.id)
     if !is_owner?
-
-
       respond_to do |format|
         format.html { redirect_to new_user_session_path, notice: 'You are not the owner of this competition.' }
         format.json { render :show, status: :created, location: new_user_session_path }
       end
+    else
+      @teams = Team.where(:competition_id => @competition.id)
+      @emails_all = PlayersInCompetitions.where(:competition_id => @competition.id).map{|u| u.user.email }
+      @freelancers = PlayersInCompetitions.where(:competition_id => @competition.id).where(:team_id => nil)
     end
   end
 
