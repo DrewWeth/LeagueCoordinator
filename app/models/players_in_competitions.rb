@@ -8,8 +8,6 @@ class PlayersInCompetitions < ActiveRecord::Base
   validates_uniqueness_of :user_id, :scope => :competition_id
 
 
-
-
   after_commit :calculate_team_count
 
   def calculate_team_count

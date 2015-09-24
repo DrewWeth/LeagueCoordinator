@@ -4,7 +4,8 @@ class CompetitionsController < ApplicationController
   # GET /competitions
   # GET /competitions.json
   def index
-    @competitions = Competition.order("at DESC").limit(50)
+    
+    @competitions = Competition.where("at > ?", Time.zone.now - 2.day).order("at DESC").limit(50)
   end
 
   # GET /competitions/1

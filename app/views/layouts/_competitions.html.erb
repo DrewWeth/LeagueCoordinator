@@ -1,6 +1,6 @@
 Your Competitions
 <hr>
-<%= "You aren't in any competitions yet :(" if @currently_in_competitions.empty? %>
+<%= "You aren't in any competitions yet" if @currently_in_competitions.empty? %>
 <% @currently_in_competitions.each do |c| %>
   <p>
     <%= link_to c.competition.name, c.competition %><br>
