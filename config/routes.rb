@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  constraints subdomain: false do
+    get ':any', to: redirect(subdomain: 'www', path: '/%{any}'), any: /.*/
+  end
+
   get 'home/index'
 
   get 'home/about'
