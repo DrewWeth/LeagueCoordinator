@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   after_filter :store_location
 
-  before_filter :add_www_subdomain if Rails.env.production?
+  # before_filter :add_www_subdomain if Rails.env.production?
 
   helper_method :get_color
 
