@@ -16,18 +16,17 @@
       <div class="col-xs-4">
         <h1>
           <% if !@is_member %>
-          <%= link_to "Join Tournament" , {:controller => "competitions", :action => "join", :id => params[:id]}, :class => "btn btn-success pull-right" %>
+            <%= link_to "Join Tournament" , {:controller => "competitions", :action => "join", :id => params[:id]}, :class => "btn btn-success pull-right shake" %>
           <% else %>
-
-          <div class="dropdown pull-right">
-            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-              Accepted
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= url_for({:controller => "competitions", :action => "leave", :id => params[:id]}) %>">Leave Competition</a></li>
-            </ul>
-          </div>
+            <div class="dropdown pull-right">
+              <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                Accepted
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="<%= url_for({:controller => "competitions", :action => "leave", :id => params[:id]}) %>">Leave Competition</a></li>
+              </ul>
+            </div>
           <% end %>
         </h1>
       </div>
@@ -82,7 +81,11 @@
     <span class="panel-title">
       <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Teams <span class="badge"><%= @teams.count %></span></h4>
       <div class="btn-group pull-right">
-        <%= link_to 'Create Team', new_team_path( :competition_id => params[:id]), :class=>"btn btn-info pull-right" %>
+        <% if not @has_team %>
+          <%= link_to 'Create Team', new_team_path( :competition_id => params[:id]), :class=>"btn btn-primary pull-right shake" %>
+        <% else %>
+          <%= link_to 'Create Team', new_team_path( :competition_id => params[:id]), :class=>"btn btn-primary pull-right" %>
+        <% end %>
       </div>
 
     </h3>

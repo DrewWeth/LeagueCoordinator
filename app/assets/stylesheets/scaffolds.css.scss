@@ -2,6 +2,65 @@
 // BLUE: #4A86E8
 
 
+.shake {
+  -webkit-animation: buttonShake 40s infinite;
+          animation: buttonShake 40s infinite;
+}
+
+@-webkit-keyframes buttonShake {
+  0% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  10% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  10.5% {
+    -webkit-transform: rotate(10deg);
+            transform: rotate(10deg);
+  }
+  11% {
+    -webkit-transform: rotate(-10deg);
+            transform: rotate(-10deg);
+  }
+  11.5% {
+    -webkit-transform: rotate(10deg);
+            transform: rotate(10deg);
+  }
+  12% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+}
+@keyframes buttonShake {
+  0% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  10% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  10.5% {
+    -webkit-transform: rotate(10deg);
+            transform: rotate(10deg);
+  }
+  11% {
+    -webkit-transform: rotate(-10deg);
+            transform: rotate(-10deg);
+  }
+  11.5% {
+    -webkit-transform: rotate(10deg);
+            transform: rotate(10deg);
+  }
+  12% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+}
+
+
 body {
   background-color: #fff;
   color: #333;
@@ -75,7 +134,7 @@ hr.style-eight:after {
 }
 
 p{
-  font-size:1em;
+  font-size:1.1em;
   font-family: 'Droid Serif', serif;
   font-style:italic;
   color:#777;

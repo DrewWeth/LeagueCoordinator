@@ -8,7 +8,6 @@ class Team < ActiveRecord::Base
 
 
   before_destroy :cleanup
-  
 
   def cleanup
     team_id = self.id

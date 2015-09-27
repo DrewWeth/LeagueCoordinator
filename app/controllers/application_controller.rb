@@ -20,9 +20,9 @@ class ApplicationController < ActionController::Base
 
   protected
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :email, :password, :password_confirmation, :remember_me, :summoner_name, :phone) }
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :email, :password, :password_confirmation, :remember_me, :summoner_name, :phone, :f_name, :l_name) }
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:login, :username, :email, :password, :remember_me) }
-    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :email, :password, :password_confirmation, :current_password, :summoner_name, :phone) }
+    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :email, :password, :password_confirmation, :current_password, :summoner_name, :phone, :name, :f_name, :l_name) }
   end
 
   def store_location
@@ -102,14 +102,6 @@ class ApplicationController < ActionController::Base
     color.prepend("#")
   end
 
-  private
-  def add_www_subdomain
-
-    unless /^www/.match(request.host)
-      redirect_to("#{request.protocol}www.#{request.host_with_port}#{request.fullpath}",
-                  :status => 200)
-    end
-  end
 
 
 end

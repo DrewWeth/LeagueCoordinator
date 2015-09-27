@@ -4,7 +4,7 @@ class CompetitionsController < ApplicationController
   # GET /competitions
   # GET /competitions.json
   def index
-    
+
     @competitions = Competition.where("at > ?", Time.zone.now - 2.day).order("at DESC").limit(50)
   end
 
@@ -83,10 +83,14 @@ class CompetitionsController < ApplicationController
     enforce_login
     @pic = PlayersInCompetitions.where(:competition_id => params["id"]).where(:user_id => current_user.id).take
 
-    if @pic.team_id != nil
+    if @pic.team_id
       @team = @pic.team
       @team.count -= 1
-      @team.save
+      if @team.count <= 0
+        @team.destroy
+      else
+        @team.save
+      end
     end
 
     respond_to do |format|
@@ -162,6 +166,10 @@ class CompetitionsController < ApplicationController
       if current_user != nil and pic = PlayersInCompetitions.where(:competition_id => @competition.id).where(:user_id => current_user.id).take
         @is_member = true
         @users_association = pic
+        @has_team = false
+        if pic.team_id
+          @has_team = true
+        end
       end
     end
 
