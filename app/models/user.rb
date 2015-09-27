@@ -12,4 +12,10 @@ class User < ActiveRecord::Base
 
   validates_length_of :summoner_name, :maximum => 50
 
+  validates :f_name, presence: true, length: { maximum: 25 }
+  validates :l_name, presence: true, length: { maximum: 25 }
+  validates :summoner_name, length: { maximum: 30 }
+  validates :phone, length: { maximum: 15 }
+
+
 end

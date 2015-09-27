@@ -18,6 +18,16 @@
   <%= f.email_field :email, autofocus: true, :class=>"form-control" %></div>
 </p>
 <p>
+  <div><%= f.label 'First name' %><br />
+  <%= f.text_field :f_name, :class=>"form-control" %></div>
+</p>
+
+<p>
+  <div><%= f.label 'Last name' %><br />
+  <%= f.text_field :l_name, :class=>"form-control" %></div>
+</p>
+
+<p>
   <div><%= f.label 'League summoner name' %><br />
   <%= f.text_field :summoner_name, :class=>"form-control" %></div>
 </p>

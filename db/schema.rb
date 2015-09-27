@@ -81,7 +81,8 @@ ActiveRecord::Schema.define(version: 20150926215724) do
     t.datetime "updated_at"
     t.string   "summoner_name"
     t.string   "phone"
-    t.string   "name"
+    t.string   "f_name"
+    t.string   "l_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

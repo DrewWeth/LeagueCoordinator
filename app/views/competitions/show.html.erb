@@ -3,12 +3,12 @@
 
 <%= link_to 'Back', competitions_path, :class=>"back-buffer" %>
 
-<div>
-  <%= link_to 'Tournament Rules', 'http://cdn.leagueoflegends.com/prized-events/Tournament+Rules+Beta.pdf' %>
-</div>
 
 <div class="row">
   <div class="col-md-7">
+
+<div class="row">
+  <div class="col-md-12">
     <div class="row">
       <div class="col-xs-8">
         <h1><%= @competition.name %></h1>
@@ -31,7 +31,6 @@
         </h1>
       </div>
     </div>
-
     <div class="gray-text">
       <p>
         <strong>Description:</strong>
@@ -47,12 +46,17 @@
       </p>
       <p>
         <strong>Organizer:</strong>
-        <%= @competition.user.try(:email) %>
+        <%= @competition.user.try(:f_name) %> (<%= @competition.user.try(:email) %>)
       </p>
       <p>
         <strong>Short link:</strong>
         <% link = root_url + 'c/' + @competition.id.to_s %>
         <a href="<%= link %>"><%= link %></a>
+      </p>
+      <p>
+        <div>
+          <%= link_to 'Tournament Rules', 'http://cdn.leagueoflegends.com/prized-events/Tournament+Rules+Beta.pdf' %>
+        </div>
       </p>
 
       <p>
@@ -62,110 +66,110 @@
         <div class="fb-like" data-href="<%= @competition.fb_page_url %>" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
         <% end %>
       </p>
-
     </div>
-
-
     <%= link_to 'Admin Access', edit_competition_path(@competition) if current_user and current_user.id == @competition.user_id %>
   </div>
-  <div class="col-md-5">
-    <center><%= image_tag(@competition.image, :class=>"img img-responsive") if !@competition.image.blank? %></center>
-  </div>
+
 </div>
 
 <p>
 </p>
 
-<div class="panel panel-default">
-  <div class="panel-heading clearfix">
-    <span class="panel-title">
-      <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Teams <span class="badge"><%= @teams.count %></span></h4>
-      <div class="btn-group pull-right">
-        <% if not @has_team %>
-          <%= link_to 'Create Team', new_team_path( :competition_id => params[:id]), :class=>"btn btn-primary pull-right shake" %>
-        <% else %>
-          <%= link_to 'Create Team', new_team_path( :competition_id => params[:id]), :class=>"btn btn-primary pull-right" %>
-        <% end %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <span class="panel-title">
+          <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Teams <span class="badge"><%= @teams.count %></span></h4>
+          <div class="btn-group pull-right">
+            <% if not @has_team %>
+              <%= link_to 'Create Team', new_team_path( :competition_id => params[:id]), :class=>"btn btn-primary pull-right shake" %>
+            <% else %>
+              <%= link_to 'Create Team', new_team_path( :competition_id => params[:id]), :class=>"btn btn-primary pull-right" %>
+            <% end %>
+          </div>
+        </h3>
       </div>
-
-    </h3>
+      <ul class="list-group">
+        <%= "<li class='list-group-item'>There are no teams yet.</li>".html_safe if @teams.empty? %>
+        <% @teams.each do |f| %>
+          <a class="list-group-item" href="<%= url_for f %>">
+            <div><b><%= f.name  %></b>
+              <span class="pull-right" style="color: <%= get_color(f.count) %>"><%= f.count %>/5 members</span>
+            </div>
+          </a>
+        <% end %>
+      </ul>
+    </div>
   </div>
-  <ul class="list-group">
-    <%= "<li class='list-group-item'>There are no teams yet.</li>".html_safe if @teams.empty? %>
-    <% @teams.each do |f| %>
-      <a class="list-group-item" href="<%= url_for f %>">
-        <div><b><%= f.name  %></b>
-          <span class="pull-right" style="color: <%= get_color(f.count) %>"><%= f.count %>/5 members</span>
-        </div>
-      </a>
-    <% end %>
-  </ul>
 </div>
-
 
 <div class="row">
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <span class="panel-title">Freelance Players <span class="badge"><%= @freelancers.count %></span></span>
+        <span class="panel-title">All Players <span class="badge"><%= @all_players.count %></span></span>
       </h3>
     </div>
     <ul class="list-group">
-      <%= "<li class='list-group-item'>There are no freelance players</li>".html_safe if @freelancers.empty? %>
-      <% @freelancers.each do |f| %>
+      <%= "<li class='list-group-item'>There are no players</li>".html_safe if @all_players.empty? %>
+      <% @all_players.each do |f| %>
+
         <li class="list-group-item">
-          <span style="float:right"><%= f.team != nil ? "Team: "+ f.team.name : "" %></span>
-
-          <div><%= f.user.email.humanize %></div>
-
-          <small>lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
+          <span style="float:right"><%= link_to f.team.name, f.team if f.team != nil %></span>
+          <div><%= f.user.f_name.humanize %></div>
+          <small>stats:</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
         </li>
-      <% end %>
-    </ul>
+        <% end %>
+      </ul>
+    </div>
   </div>
-</div>
-<div class="col-md-6">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <span class="panel-title">All Players <span class="badge"><%= @all_players.count %></span></span>
-    </h3>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <span class="panel-title">Freelance Players <span class="badge"><%= @freelancers.count %></span></span>
+      </div>
+      <ul class="list-group">
+        <%= "<li class='list-group-item'>There are no freelance players</li>".html_safe if @freelancers.empty? %>
+        <% @freelancers.each do |f| %>
+          <li class="list-group-item">
+            <span style="float:right"><%= f.team != nil ? "Team: "+ f.team.name : "" %></span>
+
+            <div><%= f.user.email.humanize %></div>
+
+            <small>lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
-  <ul class="list-group">
-    <%= "<li class='list-group-item'>There are no players</li>".html_safe if @all_players.empty? %>
-    <% @all_players.each do |f| %>
 
-    <li class="list-group-item">
-      <span style="float:right"><%= link_to f.team.name, f.team if f.team != nil %></span>
+</div>
+</div>
+<div class="col-md-5">
+  <center><%= image_tag(@competition.image, :class=>"img img-responsive", :style=>"padding-bottom:20px;") if !@competition.image.blank? %></center>
+  <% if !@competition.latitude.blank? and !@competition.longitude.blank? %>
+    <div id="map"></div>
+    <script>
+    // create a map in the "map" div, set the view to a given place and zoom
+    var map = L.map('map').setView([<%= @competition.latitude %>, <%= @competition.longitude %>], 13);
+    map.scrollWheelZoom.disable();
+    // add an OpenStreetMap tile layer
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
-      <div><%= f.user.email.humanize %></div>
-
-      <small>lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
-    </li>
-    <% end %>
-  </ul>
-
+    // add a marker in the given location, attach some popup content to it and open the popup
+    L.marker([<%= @competition.latitude %>, <%= @competition.longitude %>]).addTo(map)
+    .bindPopup('<h2 class="center"><%= @competition.name %></h2><br><%= @competition.location %>')
+    .openPopup();
+    </script>
+  <% end %>
 </div>
 </div>
 </div>
 
-<% if !@competition.latitude.blank? and !@competition.longitude.blank? %>
-<div id="map"></div>
 
-<script>
-// create a map in the "map" div, set the view to a given place and zoom
-var map = L.map('map').setView([<%= @competition.latitude %>, <%= @competition.longitude %>], 13);
-map.scrollWheelZoom.disable();
-// add an OpenStreetMap tile layer
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-// add a marker in the given location, attach some popup content to it and open the popup
-L.marker([<%= @competition.latitude %>, <%= @competition.longitude %>]).addTo(map)
-.bindPopup('<h2 class="center"><%= @competition.name %></h2><br><%= @competition.location %>')
-.openPopup();
-</script>
-<% end %>
 
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
