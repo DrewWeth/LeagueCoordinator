@@ -46,7 +46,7 @@
       </p>
       <p>
         <strong>Organizer:</strong>
-        <%= @competition.user.try(:f_name) %> (<%= @competition.user.try(:email) %>)
+        <%= @competition.user.try(:f_name) %> <% if @competition.user.f_name %>-<% end %> <%= @competition.user.try(:email) %>
       </p>
       <p>
         <strong>Short link:</strong>
@@ -117,7 +117,7 @@
 
         <li class="list-group-item">
           <span style="float:right"><%= link_to f.team.name, f.team if f.team != nil %></span>
-          <div><%= f.user.try(:f_name).humanize %></div>
+          <div><%= f.user.f_name.try(:humanize) %></div>
           <small>stats:</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
         </li>
         <% end %>
