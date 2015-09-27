@@ -39,7 +39,7 @@ class TeamsController < ApplicationController
   # GET /teams/1/edit
   def edit
     if !can_edit?
-      redirect_to root, notice: "You cannot edit this page"
+      redirect_to root_url, notice: "You cannot edit this page"
     end
     @players = get_members(@team.competition_id, @team.id)
   end

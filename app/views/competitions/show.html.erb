@@ -143,10 +143,8 @@
         <%= "<li class='list-group-item'>There are no freelance players</li>".html_safe if @freelancers.empty? %>
         <% @freelancers.each do |f| %>
           <li class="list-group-item">
-            <span style="float:right"><%= f.team != nil ? "Team: "+ f.team.name : "" %></span>
-
+            <div><%= f.user.f_name if f.user.f_name %></div>
             <div><%= f.user.email.humanize %></div>
-
             <small>lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
           </li>
         <% end %>
