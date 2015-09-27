@@ -124,11 +124,13 @@
             <% else %>
               <%= f.user.email.humanize %>
             <% end %>
-            <span style="float:right"><%= link_to f.team.name, f.team if f.team != nil %></span>
+            (<%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>)
           </div>
-          <div>
-            <small>lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
-          </div>
+          <% if f.team %>
+            <div>
+              Team <%= link_to f.team.name, f.team %>
+            </div>
+          <% end %>
         </li>
         <% end %>
       </ul>
@@ -145,7 +147,7 @@
           <li class="list-group-item">
             <div><%= f.user.f_name if f.user.f_name %></div>
             <div><%= f.user.email.humanize %></div>
-            <small>lolking.net profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
+            <small>lolking.net Profile</small> <%= link_to f.user.summoner_name, "http://www.lolking.net/search?name=" + f.user.summoner_name + "&region=NA", :target => "_blank" %>
           </li>
         <% end %>
       </ul>
